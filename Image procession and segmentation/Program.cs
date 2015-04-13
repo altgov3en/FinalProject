@@ -22,7 +22,7 @@ namespace Image_procession_and_segmentation
             applicationForm.OpenedImageView = new ImageView(); //Initialize image view
             
 
-            Application.Run(applicationForm);
+            Application.Run(applicationForm); //run the application form
 
         }
     }
