@@ -14,12 +14,13 @@ namespace Image_procession_and_segmentation
     {
 
         //Properties
-        public ImageController ImageController 
+        #region properties
+        public ImageController ImageController
         {
             get;
 
             internal set;
-            
+
         }
         public ImageView OpenedImageView
         {
@@ -27,9 +28,9 @@ namespace Image_procession_and_segmentation
 
             internal set;
 
-        }
-        //////////////////////////////////////////////
-        //////////////////////////////////////////////
+        } 
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
