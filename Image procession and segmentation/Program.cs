@@ -12,7 +12,7 @@ namespace Image_procession_and_segmentation
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main() /*Main*/
+        static void Main() /*Main program*/
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
