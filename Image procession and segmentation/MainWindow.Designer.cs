@@ -35,6 +35,7 @@
             this.imageAnalysisToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertToGrayscaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.erodeImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.erodeTheImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -71,13 +72,13 @@
             this.saveImageToolStripMenuItem.Name = "saveImageToolStripMenuItem";
             this.saveImageToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.saveImageToolStripMenuItem.Text = "Save Image";
-
             // 
             // imageAnalysisToolsToolStripMenuItem
             // 
             this.imageAnalysisToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.convertToGrayscaleToolStripMenuItem,
-            this.erodeImageToolStripMenuItem});
+            this.erodeImageToolStripMenuItem,
+            this.erodeTheImageToolStripMenuItem});
             this.imageAnalysisToolsToolStripMenuItem.Name = "imageAnalysisToolsToolStripMenuItem";
             this.imageAnalysisToolsToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
             this.imageAnalysisToolsToolStripMenuItem.Text = "Image Analysis Tools";
@@ -93,7 +94,13 @@
             // 
             this.erodeImageToolStripMenuItem.Name = "erodeImageToolStripMenuItem";
             this.erodeImageToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.erodeImageToolStripMenuItem.Text = "Erode The Image";
+            this.erodeImageToolStripMenuItem.Text = "Dilate the Image";
+            // 
+            // erodeTheImageToolStripMenuItem
+            // 
+            this.erodeTheImageToolStripMenuItem.Name = "erodeTheImageToolStripMenuItem";
+            this.erodeTheImageToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.erodeTheImageToolStripMenuItem.Text = "Erode the Image";
             // 
             // pictureBox1
             // 
@@ -134,6 +141,7 @@
         private System.Windows.Forms.ToolStripMenuItem imageAnalysisToolsToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem convertToGrayscaleToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem erodeImageToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem erodeTheImageToolStripMenuItem;
     }
 }
 

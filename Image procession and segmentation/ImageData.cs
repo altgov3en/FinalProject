@@ -15,6 +15,11 @@ namespace Image_procession_and_segmentation
         public Bitmap openedImage;
         public Bitmap openedImageGrayscaled;
         public Bitmap openedImageEroded;
+        public Bitmap openedImageDilatated;
+
+        public Boolean imageWasGrayscaled = false;
+        public Boolean imageWasEroded = false;
+        public Boolean imageWasDilated = false;
 
     }
 }

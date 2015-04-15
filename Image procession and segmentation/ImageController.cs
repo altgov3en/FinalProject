@@ -17,10 +17,7 @@ namespace Image_procession_and_segmentation
         private Bitmap openedImage;
         private IFilter grayScaleFilter = new Grayscale(0.2125, 0.7154, 0.0721);
         private Erosion erosionFilter = new Erosion();
-
-
-        public bool imageWasGrayscaled = false;
-        public bool imageWasEroded = false;
+        private Dilatation dilatationFilter = new Dilatation();
 
         private MainWindow applicationForm;
         private ImageController OpenedImageController;
@@ -35,11 +32,18 @@ namespace Image_procession_and_segmentation
             this.applicationForm.saveImageToolStripMenuItem.Click += new System.EventHandler(this.saveImageToolStripMenuItem_Click);
             this.applicationForm.convertToGrayscaleToolStripMenuItem.Click += new System.EventHandler(this.convertToGrayscaleToolStripMenuItem_Click);
             this.applicationForm.erodeImageToolStripMenuItem.Click += new System.EventHandler(this.erodeImageToolStripMenuItem_Click);
+            this.applicationForm.erodeTheImageToolStripMenuItem.Click += new System.EventHandler(this.erodeTheImageToolStripMenuItem_Click);
+        }
+
+        private void erodeTheImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenedImageData.openedImageDilatated = this.DilatateGrayscaledImage();
+            this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageDilatated;
         }
 
         private void erodeImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenedImageData.openedImageEroded = this.ErodeGrayscaledImage(OpenedImageData.openedImageGrayscaled);
+            OpenedImageData.openedImageEroded = this.ErodeGrayscaledImage();
             this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageEroded;
         }
 
@@ -79,7 +83,7 @@ namespace Image_procession_and_segmentation
 
             if(saveDialog.ShowDialog() == DialogResult.OK)
             {
-                if (imageWasGrayscaled)
+                if (OpenedImageData.imageWasGrayscaled)
                     ImageView.openedImageGrayscaled.Save(saveDialog.FileName);
                 else
                     ImageView.openedImage.Save(saveDialog.FileName);
@@ -89,14 +93,31 @@ namespace Image_procession_and_segmentation
 
         public Bitmap ConvertToGrayscale(Bitmap imageToConvert)
         {
-            this.imageWasGrayscaled = true;
+            OpenedImageData.imageWasGrayscaled = true;
             return grayScaleFilter.Apply(imageToConvert);
         }
         
-        public Bitmap ErodeGrayscaledImage(Bitmap imageToErode) 
+        public Bitmap ErodeGrayscaledImage() 
         {
-            
-            return erosionFilter.Apply(imageToErode);
+            if (OpenedImageData.imageWasEroded)
+                return erosionFilter.Apply(OpenedImageData.openedImageEroded);
+            else
+            {
+                OpenedImageData.imageWasEroded = true;
+                return erosionFilter.Apply(OpenedImageData.openedImageGrayscaled);
+
+            }
+        }
+        public Bitmap DilatateGrayscaledImage()
+        {
+            if (OpenedImageData.imageWasDilated)
+                return dilatationFilter.Apply(OpenedImageData.openedImageDilatated);
+            else
+            {
+                OpenedImageData.imageWasDilated = true;
+                return dilatationFilter.Apply(OpenedImageData.openedImageGrayscaled);
+
+            }
         }
     }
 }
