@@ -19,7 +19,7 @@ namespace Image_procession_and_segmentation
 
             MainWindow applicationForm = new MainWindow();
             applicationForm.ImageController = new ImageController(); //Intialize image controller
-            applicationForm.OpenedImageView = new ImageView(); //Initialize image view
+            applicationForm.OpenedImageView = new ImageData(); //Initialize image view
             
 
             Application.Run(applicationForm); //run the application form
