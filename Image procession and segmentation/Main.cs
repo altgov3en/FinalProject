@@ -16,13 +16,13 @@ namespace Image_procession_and_segmentation
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             MainWindow applicationForm = new MainWindow();
-            applicationForm.ImageController = new ImageController(); //Intialize image controller
-            applicationForm.OpenedImageView = new ImageData(); //Initialize image view
             
+            ImageData openedImageData = new ImageData();
+            ImageController OpenedImageController = new ImageController(applicationForm, openedImageData);
+           
 
-            Application.Run(applicationForm); //run the application form
+            Application.Run(applicationForm); //run the application UI form
 
         }
     }

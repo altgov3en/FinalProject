@@ -34,6 +34,7 @@
             this.saveImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageAnalysisToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertToGrayscaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.erodeImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -64,19 +65,19 @@
             this.openImageToolStripMenuItem.Name = "openImageToolStripMenuItem";
             this.openImageToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.openImageToolStripMenuItem.Text = "Open Image";
-            this.openImageToolStripMenuItem.Click += new System.EventHandler(this.openImageToolStripMenuItem_Click);
             // 
             // saveImageToolStripMenuItem
             // 
             this.saveImageToolStripMenuItem.Name = "saveImageToolStripMenuItem";
-            this.saveImageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveImageToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.saveImageToolStripMenuItem.Text = "Save Image";
-            this.saveImageToolStripMenuItem.Click += new System.EventHandler(this.saveImageToolStripMenuItem_Click);
+
             // 
             // imageAnalysisToolsToolStripMenuItem
             // 
             this.imageAnalysisToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.convertToGrayscaleToolStripMenuItem});
+            this.convertToGrayscaleToolStripMenuItem,
+            this.erodeImageToolStripMenuItem});
             this.imageAnalysisToolsToolStripMenuItem.Name = "imageAnalysisToolsToolStripMenuItem";
             this.imageAnalysisToolsToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
             this.imageAnalysisToolsToolStripMenuItem.Text = "Image Analysis Tools";
@@ -87,7 +88,12 @@
             this.convertToGrayscaleToolStripMenuItem.Name = "convertToGrayscaleToolStripMenuItem";
             this.convertToGrayscaleToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.convertToGrayscaleToolStripMenuItem.Text = "Convert To Grayscale";
-            this.convertToGrayscaleToolStripMenuItem.Click += new System.EventHandler(this.convertToGrayscaleToolStripMenuItem_Click);
+            // 
+            // erodeImageToolStripMenuItem
+            // 
+            this.erodeImageToolStripMenuItem.Name = "erodeImageToolStripMenuItem";
+            this.erodeImageToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.erodeImageToolStripMenuItem.Text = "Erode The Image";
             // 
             // pictureBox1
             // 
@@ -122,11 +128,12 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openImageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveImageToolStripMenuItem;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        internal System.Windows.Forms.ToolStripMenuItem openImageToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem saveImageToolStripMenuItem;
+        internal System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem imageAnalysisToolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem convertToGrayscaleToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem convertToGrayscaleToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem erodeImageToolStripMenuItem;
     }
 }
 

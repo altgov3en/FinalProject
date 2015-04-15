@@ -14,32 +14,7 @@ namespace Image_procession_and_segmentation
     {
         public Bitmap openedImage;
         public Bitmap openedImageGrayscaled;
-
-        //public Bitmap openedImage
-        //{
-        //    set
-        //    {
-        //        this.openedImage = value;
-        //    }
-
-        //    get
-        //    {
-        //        return this.openedImage;
-        //    }
-        //}
-
-        //public Bitmap openedImageGrayscaled
-        //{
-        //    set
-        //    {
-        //        this.openedImageGrayscaled = value;
-        //    }
-
-        //    get
-        //    {
-        //        return this.openedImageGrayscaled;
-        //     }
-        //}
+        public Bitmap openedImageEroded;
 
     }
 }
