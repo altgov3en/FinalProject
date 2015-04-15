@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Image_procession_and_segmentation
 {
-    public class ImageView //rename image meta data
+    public class ImageData //rename image meta data
     {
         public Bitmap openedImage;
         public Bitmap openedImageGrayscaled;
