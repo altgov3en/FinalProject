@@ -14,7 +14,6 @@ namespace Image_procession_and_segmentation
 
     public class ImageController
     {
-        private Bitmap openedImage;
         private IFilter grayScaleFilter = new Grayscale(0.2125, 0.7154, 0.0721);
         private Erosion erosionFilter = new Erosion();
         private Dilatation dilatationFilter = new Dilatation();
@@ -78,11 +77,11 @@ namespace Image_procession_and_segmentation
             openDialog.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
-                openedImage = new Bitmap(openDialog.FileName);
+                OpenedImageData.openedImage = new Bitmap(openDialog.FileName);
                 OpenedImageData.imageWasOpened = true; //indicates if user opened the image
             }
 
-            return openedImage;
+            return OpenedImageData.openedImage;
         }
         public void SaveImage(ImageData ImageView)
         {
