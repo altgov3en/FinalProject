@@ -17,6 +17,7 @@ namespace Image_procession_and_segmentation
         public Bitmap openedImageEroded;
         public Bitmap openedImageDilatated;
 
+        public Boolean imageWasOpened = false; //indicates if user opened the image
         public Boolean imageWasGrayscaled = false;
         public Boolean imageWasEroded = false;
         public Boolean imageWasDilated = false;

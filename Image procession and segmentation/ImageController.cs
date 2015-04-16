@@ -71,6 +71,7 @@ namespace Image_procession_and_segmentation
             if(openDialog.ShowDialog() == DialogResult.OK)
             {
                 openedImage = new Bitmap(openDialog.FileName);
+                OpenedImageData.imageWasOpened = true; //indicates if user opened the image
             }
 
             return openedImage;
@@ -78,16 +79,23 @@ namespace Image_procession_and_segmentation
 
         public void SaveImage(ImageData ImageView)
         {
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
-
-            if(saveDialog.ShowDialog() == DialogResult.OK)
+            if (OpenedImageData.imageWasOpened)
             {
-                if (OpenedImageData.imageWasGrayscaled)
-                    ImageView.openedImageGrayscaled.Save(saveDialog.FileName);
-                else
-                    ImageView.openedImage.Save(saveDialog.FileName);
-            }   
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (OpenedImageData.imageWasGrayscaled)
+                        ImageView.openedImageGrayscaled.Save(saveDialog.FileName);
+                    else
+                        ImageView.openedImage.Save(saveDialog.FileName);
+                }
+            }
+            else
+            {
+                MessageBox.Show("There is no image to save.\n");
+            }            
 
         }
 
@@ -99,24 +107,57 @@ namespace Image_procession_and_segmentation
         
         public Bitmap ErodeGrayscaledImage() 
         {
-            if (OpenedImageData.imageWasEroded)
-                return erosionFilter.Apply(OpenedImageData.openedImageEroded);
+            if (OpenedImageData.imageWasOpened)
+            {
+                if (OpenedImageData.imageWasGrayscaled)
+                {
+                    if (OpenedImageData.imageWasEroded)
+                        return erosionFilter.Apply(OpenedImageData.openedImageEroded);
+                    else
+                    {
+                        OpenedImageData.imageWasEroded = true;
+                        return erosionFilter.Apply(OpenedImageData.openedImageGrayscaled);
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please, grayscale the image before applying the Dilatation");
+                    return OpenedImageData.openedImage;
+                }
+            }
             else
             {
-                OpenedImageData.imageWasEroded = true;
-                return erosionFilter.Apply(OpenedImageData.openedImageGrayscaled);
-
+                MessageBox.Show("There is no image to Dilatate.");
+                return null;
             }
         }
+    
         public Bitmap DilatateGrayscaledImage()
         {
-            if (OpenedImageData.imageWasDilated)
-                return dilatationFilter.Apply(OpenedImageData.openedImageDilatated);
+            if (OpenedImageData.imageWasOpened)
+            {
+                if (OpenedImageData.imageWasGrayscaled)
+                {
+                    if (OpenedImageData.imageWasDilated)
+                        return dilatationFilter.Apply(OpenedImageData.openedImageDilatated);
+                    else
+                    {
+                        OpenedImageData.imageWasDilated = true;
+                        return dilatationFilter.Apply(OpenedImageData.openedImageGrayscaled);
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please, grayscale the image before applying the Erosion");
+                    return OpenedImageData.openedImage;
+                }
+            }
             else
             {
-                OpenedImageData.imageWasDilated = true;
-                return dilatationFilter.Apply(OpenedImageData.openedImageGrayscaled);
-
+                MessageBox.Show("There is no image to Erode.");
+                return null;
             }
         }
     }
