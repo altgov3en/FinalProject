@@ -12,15 +12,15 @@ namespace Image_procession_and_segmentation
 {
     public class ImageData //rename image meta data
     {
-        public Bitmap openedImage;
-        public Bitmap openedImageGrayscaled;
-        public Bitmap openedImageEroded;
-        public Bitmap openedImageDilatated;
+        public Bitmap openedImage;           //stores the opened image
+        public Bitmap openedImageGrayscaled; //stores the grayscaled image
+        public Bitmap openedImageEroded;     //stores the eroded image
+        public Bitmap openedImageDilatated;  //stores the eroded image
 
-        public Boolean imageWasOpened = false; //indicates if user opened the image
-        public Boolean imageWasGrayscaled = false;
-        public Boolean imageWasEroded = false;
-        public Boolean imageWasDilated = false;
+        public Boolean imageWasOpened = false;      //indicates if the image was opened
+        public Boolean imageWasGrayscaled = false;  //indicates if the image was grayscaled
+        public Boolean imageWasEroded = false;      //indicates if the image was eroded
+        public Boolean imageWasDilatated = false;   //indicates if the image was dilatated
 
     }
 }
