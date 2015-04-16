@@ -27,15 +27,5 @@ namespace Image_procession_and_segmentation
         {
 
         }
-
-        private void erodeTheImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-
-
     }
 }

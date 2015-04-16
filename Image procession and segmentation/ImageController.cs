@@ -23,7 +23,7 @@ namespace Image_procession_and_segmentation
         private ImageController OpenedImageController;
         private ImageData OpenedImageData;
 
-        public ImageController(MainWindow applicationForm, ImageData OpenedImageData) //constructor
+        public ImageController(MainWindow applicationForm, ImageData OpenedImageData) //Constructor
         {
             // TODO: Complete member initialization
             this.applicationForm = applicationForm;
@@ -34,41 +34,49 @@ namespace Image_procession_and_segmentation
             this.applicationForm.erodeImageToolStripMenuItem.Click += new System.EventHandler(this.erodeImageToolStripMenuItem_Click);
             this.applicationForm.erodeTheImageToolStripMenuItem.Click += new System.EventHandler(this.erodeTheImageToolStripMenuItem_Click);
         }
-
-        private void erodeTheImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenedImageData.openedImageDilatated = this.DilatateGrayscaledImage();
-            this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageDilatated;
-        }
-
-        private void erodeImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenedImageData.openedImageEroded = this.ErodeGrayscaledImage();
-            this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageEroded;
-        }
-
-        private void convertToGrayscaleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenedImageData.openedImageGrayscaled = this.ConvertToGrayscale(OpenedImageData.openedImage);
-            this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageGrayscaled;
-        }
-
-        private void saveImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.SaveImage(OpenedImageData);
-        }
-
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region "UI Click" handlers
+        //"Image->Open Image" event
         private void openImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenedImageData.openedImage = this.OpenImage(); //Open user specified image for analysis
             this.applicationForm.pictureBox1.Image = OpenedImageData.openedImage; //Set opened image to main window   
         }
 
+        //"Image->Save Image" event
+        private void saveImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.SaveImage(OpenedImageData);
+        }
+
+        //"Image Analysis Tools->Convert To Grayscale" event
+        private void convertToGrayscaleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenedImageData.openedImageGrayscaled = this.ConvertToGrayscale(OpenedImageData.openedImage);
+            this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageGrayscaled;
+        }
+
+        //"Image Analysis Tools->Erode the Image" event
+        private void erodeTheImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenedImageData.openedImageDilatated = this.DilatateGrayscaledImage();
+            this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageDilatated;
+        }
+
+        //"Image Analysis Tools->Dilatate the Image" event
+        private void erodeImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenedImageData.openedImageEroded = this.ErodeGrayscaledImage();
+            this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageEroded;
+        } 
+        #endregion
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region Controller functions
         public Bitmap OpenImage()
         {
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
-            if(openDialog.ShowDialog() == DialogResult.OK)
+            if (openDialog.ShowDialog() == DialogResult.OK)
             {
                 openedImage = new Bitmap(openDialog.FileName);
                 OpenedImageData.imageWasOpened = true; //indicates if user opened the image
@@ -76,7 +84,6 @@ namespace Image_procession_and_segmentation
 
             return openedImage;
         }
-
         public void SaveImage(ImageData ImageView)
         {
             if (OpenedImageData.imageWasOpened)
@@ -95,26 +102,26 @@ namespace Image_procession_and_segmentation
             else
             {
                 MessageBox.Show("There is no image to save.\n");
-            }            
+            }
 
         }
-
         public Bitmap ConvertToGrayscale(Bitmap imageToConvert)
         {
             OpenedImageData.imageWasGrayscaled = true;
             return grayScaleFilter.Apply(imageToConvert);
         }
-        
-        public Bitmap ErodeGrayscaledImage() 
+        public Bitmap ErodeGrayscaledImage()
         {
-            if (OpenedImageData.imageWasOpened)
+            if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
-                if (OpenedImageData.imageWasGrayscaled)
+                if (OpenedImageData.imageWasGrayscaled) //checks if the opened image was grayscaled
                 {
-                    if (OpenedImageData.imageWasEroded)
+                    if (OpenedImageData.imageWasEroded)//checks if the grayscaled image was already eroded
+                        //not first time erosion will erode the already eroded image
                         return erosionFilter.Apply(OpenedImageData.openedImageEroded);
                     else
                     {
+                        //first time erosion will erode the grayscaled image 
                         OpenedImageData.imageWasEroded = true;
                         return erosionFilter.Apply(OpenedImageData.openedImageGrayscaled);
 
@@ -132,18 +139,19 @@ namespace Image_procession_and_segmentation
                 return null;
             }
         }
-    
         public Bitmap DilatateGrayscaledImage()
         {
-            if (OpenedImageData.imageWasOpened)
+            if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
-                if (OpenedImageData.imageWasGrayscaled)
+                if (OpenedImageData.imageWasGrayscaled) //checks if the opened image was grayscaled
                 {
-                    if (OpenedImageData.imageWasDilated)
-                        return dilatationFilter.Apply(OpenedImageData.openedImageDilatated);
+                    if (OpenedImageData.imageWasDilatated) //checks if the grayscaled image was already dilatated
+                        //not first time dilatation will dilatate the already dilatated image
+                        return dilatationFilter.Apply(OpenedImageData.openedImageDilatated); 
                     else
                     {
-                        OpenedImageData.imageWasDilated = true;
+                        //first time dilatation will dilatate the grayscaled image                
+                        OpenedImageData.imageWasDilatated = true;
                         return dilatationFilter.Apply(OpenedImageData.openedImageGrayscaled);
 
                     }
@@ -159,6 +167,8 @@ namespace Image_procession_and_segmentation
                 MessageBox.Show("There is no image to Erode.");
                 return null;
             }
-        }
+        } 
+        #endregion
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
