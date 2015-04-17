@@ -37,6 +37,7 @@
             this.erodeImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.erodeTheImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.sharpenTheImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -77,8 +78,9 @@
             // 
             this.imageAnalysisToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.convertToGrayscaleToolStripMenuItem,
+            this.erodeTheImageToolStripMenuItem,
             this.erodeImageToolStripMenuItem,
-            this.erodeTheImageToolStripMenuItem});
+            this.sharpenTheImageToolStripMenuItem});
             this.imageAnalysisToolsToolStripMenuItem.Name = "imageAnalysisToolsToolStripMenuItem";
             this.imageAnalysisToolsToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
             this.imageAnalysisToolsToolStripMenuItem.Text = "Image Analysis Tools";
@@ -112,6 +114,12 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
+            // sharpenTheImageToolStripMenuItem
+            // 
+            this.sharpenTheImageToolStripMenuItem.Name = "sharpenTheImageToolStripMenuItem";
+            this.sharpenTheImageToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.sharpenTheImageToolStripMenuItem.Text = "Sharpen the Image";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -142,6 +150,7 @@
         internal System.Windows.Forms.ToolStripMenuItem convertToGrayscaleToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem erodeImageToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem erodeTheImageToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem sharpenTheImageToolStripMenuItem;
     }
 }
 
