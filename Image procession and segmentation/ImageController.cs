@@ -20,7 +20,6 @@ namespace Image_procession_and_segmentation
         private Sharpen sharpeningFilter = new Sharpen();
 
         private MainWindow applicationForm;
-        private ImageController OpenedImageController;
         private ImageData OpenedImageData;
 
         public ImageController(MainWindow applicationForm, ImageData OpenedImageData) //Constructor
@@ -109,14 +108,22 @@ namespace Image_procession_and_segmentation
             }
             else
             {
-                MessageBox.Show("There is no image to save.\n");
+                MessageBox.Show("There is no image to Save.\n");
             }
 
         }
         public Bitmap ConvertToGrayscale(Bitmap imageToConvert)
         {
-            OpenedImageData.imageWasGrayscaled = true;
-            return grayScaleFilter.Apply(imageToConvert);
+            if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
+            {
+                OpenedImageData.imageWasGrayscaled = true;
+                return grayScaleFilter.Apply(imageToConvert);
+            }
+            else
+            {
+                MessageBox.Show("There is no image to Grayscale.");
+                return null;
+            }
         }
         public Bitmap ErodeGrayscaledImage()
         {
