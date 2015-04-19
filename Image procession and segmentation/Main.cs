@@ -16,11 +16,12 @@ namespace Image_procession_and_segmentation
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             MainWindow applicationForm = new MainWindow();
+            HistogramWindow grayscaleHistogram = new HistogramWindow();
             
             ImageData openedImageData = new ImageData();
-            applicationForm.pictureBox2.Hide(); 
-            ImageController OpenedImageController = new ImageController(applicationForm, openedImageData);
+            ImageController OpenedImageController = new ImageController(applicationForm, grayscaleHistogram , openedImageData);
            
 
             Application.Run(applicationForm); //run the application UI form

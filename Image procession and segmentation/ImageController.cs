@@ -22,11 +22,13 @@ namespace Image_procession_and_segmentation
 
         private MainWindow applicationForm;
         private ImageData OpenedImageData;
+        private HistogramWindow grayscaleHistogram;
 
-        public ImageController(MainWindow applicationForm, ImageData OpenedImageData) //Constructor
+        public ImageController(MainWindow applicationForm, HistogramWindow grayscaleHistogram, ImageData OpenedImageData) //Constructor
         {
             // TODO: Complete member initialization
             this.applicationForm = applicationForm;
+            this.grayscaleHistogram = grayscaleHistogram;
             this.OpenedImageData = OpenedImageData;
             this.applicationForm.openImageToolStripMenuItem.Click += new System.EventHandler(this.openImageToolStripMenuItem_Click);
             this.applicationForm.saveImageToolStripMenuItem.Click += new System.EventHandler(this.saveImageToolStripMenuItem_Click);
@@ -120,7 +122,6 @@ namespace Image_procession_and_segmentation
                 OpenedImageData.imageWasGrayscaled = true;
                 OpenedImageData.openedImageGrayscaled = grayScaleFilter.Apply(imageToConvert);
                 this.calculateHistogram();
-
                 //image statistics
                 OpenedImageData.openedImageStatistics = new AForge.Imaging.ImageStatistics(OpenedImageData.openedImageGrayscaled);
             }
@@ -238,8 +239,9 @@ namespace Image_procession_and_segmentation
         {
 
             Bitmap bmp = new Bitmap(histogram.Length + 10, 310);
-            this.applicationForm.pictureBox2.Show();
-            this.applicationForm.pictureBox2.Image = bmp;
+
+            grayscaleHistogram.pictureBox1.Image = bmp;
+            grayscaleHistogram.Show();
 
             BitmapData data = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
