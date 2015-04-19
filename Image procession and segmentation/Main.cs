@@ -19,6 +19,7 @@ namespace Image_procession_and_segmentation
             MainWindow applicationForm = new MainWindow();
             
             ImageData openedImageData = new ImageData();
+            applicationForm.pictureBox2.Hide(); 
             ImageController OpenedImageController = new ImageController(applicationForm, openedImageData);
            
 
