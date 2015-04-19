@@ -12,6 +12,8 @@ namespace Image_procession_and_segmentation
 {
     public class ImageData //rename image meta data
     {
+        public AForge.Imaging.ImageStatistics openedImageStatistics;
+
         public Bitmap openedImage;           //stores the opened image
         public Bitmap openedImageGrayscaled; //stores the grayscaled image
         public Bitmap openedImageEroded;     //stores the eroded image

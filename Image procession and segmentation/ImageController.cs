@@ -53,26 +53,26 @@ namespace Image_procession_and_segmentation
         //"Image Analysis Tools->Convert To Grayscale" event
         private void convertToGrayscaleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenedImageData.openedImageGrayscaled = this.ConvertToGrayscale(OpenedImageData.openedImage);
+            this.ConvertToGrayscale(OpenedImageData.openedImage);
             this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageGrayscaled;
         }
 
         //"Image Analysis Tools->Erode the Image" event
         private void erodeTheImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenedImageData.openedImageDilatated = this.DilatateGrayscaledImage();
+            this.DilatateGrayscaledImage();
             this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageDilatated;
         }
 
         //"Image Analysis Tools->Dilatate the Image" event
         private void erodeImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenedImageData.openedImageEroded = this.ErodeGrayscaledImage();
+            this.ErodeGrayscaledImage();
             this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageEroded;
         }
         private void sharpenTheImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenedImageData.openedImageSharpened = this.SharpenGrayscaledImage();
+            this.SharpenGrayscaledImage();
             this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageSharpened;
         }
 
@@ -112,20 +112,22 @@ namespace Image_procession_and_segmentation
             }
 
         }
-        public Bitmap ConvertToGrayscale(Bitmap imageToConvert)
+        public void ConvertToGrayscale(Bitmap imageToConvert)
         {
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
                 OpenedImageData.imageWasGrayscaled = true;
-                return grayScaleFilter.Apply(imageToConvert);
+                OpenedImageData.openedImageGrayscaled = grayScaleFilter.Apply(imageToConvert);
+
+                //image statistics
+                OpenedImageData.openedImageStatistics = new AForge.Imaging.ImageStatistics(OpenedImageData.openedImageGrayscaled);
             }
             else
             {
                 MessageBox.Show("There is no image to Grayscale.");
-                return null;
             }
         }
-        public Bitmap ErodeGrayscaledImage()
+        public void ErodeGrayscaledImage()
         {
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
@@ -133,28 +135,23 @@ namespace Image_procession_and_segmentation
                 {
                     if (OpenedImageData.imageWasEroded)//checks if the grayscaled image was already eroded
                         //not first time erosion will erode the already eroded image
-                        return erosionFilter.Apply(OpenedImageData.openedImageEroded);
+                        OpenedImageData.openedImageEroded = erosionFilter.Apply(OpenedImageData.openedImageEroded);
                     else
                     {
                         //first time erosion will erode the grayscaled image 
                         OpenedImageData.imageWasEroded = true;
-                        return erosionFilter.Apply(OpenedImageData.openedImageGrayscaled);
+                        OpenedImageData.openedImageEroded = erosionFilter.Apply(OpenedImageData.openedImageGrayscaled);
 
                     }
                 }
                 else
-                {
                     MessageBox.Show("Please, grayscale the image before applying the Dilatation");
-                    return OpenedImageData.openedImage;
-                }
             }
             else
-            {
                 MessageBox.Show("There is no image to Dilatate.");
-                return null;
-            }
+  
         }
-        public Bitmap DilatateGrayscaledImage()
+        public void DilatateGrayscaledImage()
         {
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
@@ -162,58 +159,43 @@ namespace Image_procession_and_segmentation
                 {
                     if (OpenedImageData.imageWasDilatated) //checks if the grayscaled image was already dilatated
                         //not first time dilatation will dilatate the already dilatated image
-                        return dilatationFilter.Apply(OpenedImageData.openedImageDilatated); 
+                        OpenedImageData.openedImageDilatated = dilatationFilter.Apply(OpenedImageData.openedImageDilatated); 
                     else
                     {
                         //first time dilatation will dilatate the grayscaled image                
                         OpenedImageData.imageWasDilatated = true;
-                        return dilatationFilter.Apply(OpenedImageData.openedImageGrayscaled);
+                        OpenedImageData.openedImageDilatated = dilatationFilter.Apply(OpenedImageData.openedImageGrayscaled);
 
                     }
                 }
                 else
-                {
                     MessageBox.Show("Please, grayscale the image before applying the Erosion");
-                    return OpenedImageData.openedImage;
-                }
             }
             else
-            {
                 MessageBox.Show("There is no image to Erode.");
-                return null;
-            }
         }
 
-        private Bitmap SharpenGrayscaledImage()
+        private void SharpenGrayscaledImage()
         {
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
                 if (OpenedImageData.imageWasGrayscaled) //checks if the opened image was grayscaled
                 {
                     if (OpenedImageData.imageWasSharpened) //checks if the grayscaled image was already sharpened
-                    {
                         MessageBox.Show("This image is already sharpened.");
-                        return OpenedImageData.openedImageSharpened;
-                    }
                     else
                     {
                         //first time dilatation will dilatate the grayscaled image                
                         OpenedImageData.imageWasSharpened = true;
-                        return sharpeningFilter.Apply(OpenedImageData.openedImageGrayscaled);
-
+                        OpenedImageData.openedImageSharpened = sharpeningFilter.Apply(OpenedImageData.openedImageGrayscaled);
                     }
+
                 }
                 else
-                {
                     MessageBox.Show("Please, grayscale the image before applying the Sharpening");
-                    return OpenedImageData.openedImage;
-                }
             }
             else
-            {
                 MessageBox.Show("There is no image to Sharp.");
-                return null;
-            }
         }
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

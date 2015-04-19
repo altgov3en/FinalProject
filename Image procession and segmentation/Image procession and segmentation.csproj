@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ImageController.cs" />
     <Compile Include="ImageData.cs" />
+    <Compile Include="ImageMatrix.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
