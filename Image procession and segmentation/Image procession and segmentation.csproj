@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge.Imaging">
-      <HintPath>..\..\..\..\..\AForge.NET\Release\AForge.Imaging.dll</HintPath>
+      <HintPath>..\..\..\..\Dropbox\סמסטר א -תשעה\פרויקט שלב א\AForge.NET\Release\AForge.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,7 +56,6 @@
     </Compile>
     <Compile Include="ImageController.cs" />
     <Compile Include="ImageData.cs" />
-    <Compile Include="ImageMatrix.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
