@@ -206,9 +206,16 @@ namespace Image_procession_and_segmentation
                         MessageBox.Show("This image is already sharpened.");
                     else
                     {
-                        //first time dilatation will dilatate the grayscaled image                
+                        //first time dilatation will dilatate the grayscaled image
+                        if(OpenedImageData.imageWasEroded)
+                            OpenedImageData.openedImageSharpened = sharpeningFilter.Apply(OpenedImageData.openedImageEroded);
+                        else
+                            if(OpenedImageData.imageWasDilatated)
+                                OpenedImageData.openedImageSharpened = sharpeningFilter.Apply(OpenedImageData.openedImageDilatated);
+                            else
+                                OpenedImageData.openedImageSharpened = sharpeningFilter.Apply(OpenedImageData.openedImageGrayscaled);
+
                         OpenedImageData.imageWasSharpened = true;
-                        OpenedImageData.openedImageSharpened = sharpeningFilter.Apply(OpenedImageData.openedImageGrayscaled);
                         this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageSharpened;
                     }
 
@@ -224,8 +231,7 @@ namespace Image_procession_and_segmentation
         }
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+       
         public void calculateHistogram()
         {
             BitmapData data = OpenedImageData.openedImageGrayscaled.LockBits(new System.Drawing.Rectangle(0, 0, OpenedImageData.openedImage.Width, OpenedImageData.openedImage.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
