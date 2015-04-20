@@ -141,7 +141,7 @@ namespace Image_procession_and_segmentation
             else
                 MessageBox.Show("There is no image to Grayscale.");
         }
-        public void ErodeGrayscaledImage()
+        public void ErodeGrayscaledImage()  //kjkjkljl
         {
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
