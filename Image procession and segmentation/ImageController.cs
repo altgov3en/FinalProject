@@ -148,8 +148,11 @@ namespace Image_procession_and_segmentation
                 if (OpenedImageData.imageWasGrayscaled) //checks if the opened image was grayscaled
                 {
                     if (OpenedImageData.imageWasEroded)//checks if the grayscaled image was already eroded
-                        //not first time erosion will erode the already eroded image
+                    //not first time erosion will erode the already eroded image
+                    {
                         OpenedImageData.openedImageEroded = erosionFilter.Apply(OpenedImageData.openedImageEroded);
+                        this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageEroded;
+                    }
                     else
                     {
                         //first time erosion will erode the grayscaled image 
@@ -176,8 +179,11 @@ namespace Image_procession_and_segmentation
                 if (OpenedImageData.imageWasGrayscaled) //checks if the opened image was grayscaled
                 {
                     if (OpenedImageData.imageWasDilatated) //checks if the grayscaled image was already dilatated
-                        //not first time dilatation will dilatate the already dilatated image
+                    //not first time dilatation will dilatate the already dilatated image
+                    {
                         OpenedImageData.openedImageDilatated = dilatationFilter.Apply(OpenedImageData.openedImageDilatated);
+                        this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageDilatated;
+                    }
                     else
                     {
                         //first time dilatation will dilatate the grayscaled image                
