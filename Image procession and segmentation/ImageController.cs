@@ -303,59 +303,51 @@ namespace Image_procession_and_segmentation
         }
         public void drawHistogram(int[] histogram)
         {
-
-            Bitmap bmp = new Bitmap(histogram.Length + 10, 310);
-
-            grayscaleHistogram.pictureBox1.Image = bmp;
-            grayscaleHistogram.Show();
-
+            Bitmap bmp = new Bitmap(histogram.Length + 10, 310); //new blank bitmap image
             BitmapData data = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
             unsafe
             {
-                int remain = data.Stride - data.Width * 3;
-                byte* ptr = (byte*)data.Scan0;
+                byte* ptr = (byte*)data.Scan0; //see explanations about Scan0 at calculateHistogram() method
+                int remain = data.Stride - data.Width * 3; //see explanations about Stride at calculateHistogram() method
 
-                for (int i = 0; i < data.Height; i++)
+                //Color blank image in black
+                for (int i = 0; i < data.Height; i++)//for each row
                 {
-
-                    for (int j = 0; j < data.Width; j++)
+                    for (int j = 0; j < data.Width; j++)//for each column
                     {
-                        ptr[0] = ptr[1] = ptr[2] = 150;
-                        ptr += 3;
+                        ptr[0] = ptr[1] = ptr[2] = 0; //Blue=0,Red=0 and Green=0 gets us black color
+                        ptr += 3; //go to next image pixel
                     }
-                    ptr += remain;
-
+                    ptr += remain; //this will actualy take the pointer to the new image row
                 }
 
                 int max = 0;
-                for (int i = 0; i < histogram.Length; i++)
-                {
-
+                for (int i = 0; i < histogram.Length; i++) //finds the maximum in array
                     if (max < histogram[i])
                         max = histogram[i];
 
-                }
-
+                //Draw histogram columns on blank black image
                 for (int i = 0; i < histogram.Length; i++)
                 {
-                    ptr = (byte*)data.Scan0;
-                    ptr += data.Stride * (305) + (i + 5) * 3;
+                    ptr = (byte*)data.Scan0;//see explanations about hte Scan0 at calculateHistogram() method
+                    ptr += data.Stride * (305) + (i + 5) * 3; //go to the bottom of the image and i+5 pixels to left
 
-                    int length = (int)(1.0 * histogram[i] * 300 / max);
+                    int length = (int)(1.0 * histogram[i] * 300 / max); //histogram column height
 
-                    for (int j = 0; j < length; j++)
+                    for (int j = 0; j < length; j++) //draw the column of the height 'lenght'
                     {
-                        ptr[0] = 255;
-                        ptr[1] = ptr[2] = 0;
-                        ptr -= data.Stride;
+                        ptr[0] = 0;
+                        ptr[1] = ptr[2] = 255;
+                        ptr -= data.Stride; //go up exactly one row (staying at the same pixel but one row above)
                     }
-
                 }
-
             }
 
             bmp.UnlockBits(data);
+
+            grayscaleHistogram.pictureBox1.Image = bmp; //put the Histogram image into the picture box (in the window)
+            grayscaleHistogram.Show(); //show the window on the screen
         }
     }
 
