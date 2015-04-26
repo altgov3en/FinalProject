@@ -132,8 +132,6 @@ namespace Image_procession_and_segmentation
             {
                 OpenedImageData.imageWasGrayscaled = true;
                 OpenedImageData.openedImageGrayscaled = grayScaleFilter.Apply(imageToConvert);
-                //image statistics
-                OpenedImageData.openedImageStatistics = new AForge.Imaging.ImageStatistics(OpenedImageData.openedImageGrayscaled);
                 this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageGrayscaled;
                 applicationForm.button1.Visible = true; //"Show Image Histogram" button is anabled
                                                         //This image will appear only when the image is grayscaled 
