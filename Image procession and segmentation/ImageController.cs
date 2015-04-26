@@ -240,30 +240,62 @@ namespace Image_procession_and_segmentation
        
         public void calculateHistogram()
         {
+            //What is pixel?
+            /* Each pixel's color sample has three numerical RGB components (Red, Green, Blue)
+             * to represent the color of that tiny pixel area. These three RGB components are
+             * three 8-bit numbers for each pixel. Three 8-bit bytes (one byte for each of RGB)
+             * is called 24 bit color. Each 8 bit RGB component can have 256 possible values,
+             * ranging from 0 to 255. For example, three values like (250, 165, 0), meaning (Red=250, Green=165, Blue=0)
+             * to denote one Orange pixel.*/
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
             BitmapData data = OpenedImageData.openedImageGrayscaled.LockBits(new System.Drawing.Rectangle(0, 0, OpenedImageData.openedImage.Width, OpenedImageData.openedImage.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
             unsafe
             {
+                //BitmapData.Scan0 gets or sets the address of the first pixel data in the bitmap.
+                //This can also be thought of as the first scan line in the bitmap.
                 byte* ptr = (byte*)data.Scan0;
+  
+                //BitmapData.Width gets the width, in pixels, of this Image.
+                //BitmapData.Stride gets the number of bytes (rounded up to a four-byte boundary)
+                //                                             taken to store one row of an image.
+                //
+                int remain = data.Stride - data.Width * 3; //Difference between rounded up to four bytes image width 
+                                                           //               and actual image widht.
+                //Example
+                //For given 4x5 pixels image:
+                //
+                //|B|G|R| |B|G|R| |B|G|R| |B|G|R|
+                //|B|G|R| |B|G|R| |B|G|R| |B|G|R|
+                //|B|G|R| |B|G|R| |B|G|R| |B|G|R|
+                //|B|G|R| |B|G|R| |B|G|R| |B|G|R|
+                //|B|G|R| |B|G|R| |B|G|R| |B|G|R|
+                //
+                //BitmapData.Width = 4 pixel (int value)
+                //BitmapData.Stride = (3+1)*4 Bytes (int value)
 
-                int remain = data.Stride - data.Width * 3;
 
-                int[] histogram = new int[256];
-                for (int i = 0; i < histogram.Length; i++)
+                int[] histogram = new int[256]; //2^8 = 256 shades of gray
+                                                //histogram[i] holds the number of pixels for each shade 'i'
+
+                for (int i = 0; i < histogram.Length; i++) //each nuber for pixels for shade i initialize to zero 
                     histogram[i] = 0;
 
-                for (int i = 0; i < data.Height; i++)
+                for (int i = 0; i < data.Height; i++)//for each row
                 {
-                    for (int j = 0; j < data.Width; j++)
+                    for (int j = 0; j < data.Width; j++)//for each column
                     {
-                        int mean = ptr[0] + ptr[1] + ptr[2];
-                        mean /= 3;
+                        int mean = ptr[0] + ptr[1] + ptr[2]; //sum 3 pixel's color values 
+                                                             //(each pixel represented with three 8 bit (Byte) values)
 
-                        histogram[mean]++;
-                        ptr += 3;
+                        mean /= 3; //calculate the pixel color or shade
+
+                        histogram[mean]++; //incriment the pixel counter for shade 'mean'
+                        ptr += 3;          //go to next pixel
                     }
 
-                    ptr += remain;
+                    ptr += remain; //this will actualy take the pointer to the new image row
                 }
                 drawHistogram(histogram);
             }
