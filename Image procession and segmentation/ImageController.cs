@@ -235,7 +235,40 @@ namespace Image_procession_and_segmentation
         }
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-       
+
+        public void erodeGrayscaledImage()
+        {
+            BitmapData sourceData = OpenedImageData.openedImageGrayscaled.LockBits(new System.Drawing.Rectangle(0, 0, OpenedImageData.openedImage.Width, OpenedImageData.openedImage.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            
+            OpenedImageData.openedImageEroded = new Bitmap(sourceData.Width, sourceData.Height);
+            BitmapData destData = OpenedImageData.openedImageEroded.LockBits(new System.Drawing.Rectangle(0, 0, OpenedImageData.openedImage.Width-1, OpenedImageData.openedImage.Height-1), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+         
+            unsafe
+            {
+                byte* sourcePtr = (byte*)sourceData.Scan0;
+                byte* destPtr = (byte*)destData.Scan0;
+
+                byte redValue, greenValue, blueValue = 0;
+
+                int index = sourceData.Width + 1;
+
+                destPtr += sourceData.Width + 1;
+ 
+                for (int i = 1; i < sourceData.Height - 1; i++)//for each row
+                {
+                    for (int j = 1; j < sourceData.Width - 1; j++)//for each column
+                    {
+                        blueValue += sourcePtr[index - sourceData.Width + 1];
+                        blueValue += sourcePtr[index - sourceData.Width + 1 + 3];
+                        blueValue += sourcePtr[index - sourceData.Width + 1 + 3 + 3];
+
+
+
+                    }
+                }
+            }
+        }
+
         public void calculateHistogram()
         {
             //What is pixel?
