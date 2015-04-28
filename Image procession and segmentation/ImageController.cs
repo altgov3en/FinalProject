@@ -35,7 +35,6 @@ namespace Image_procession_and_segmentation
             this.applicationForm.openImageToolStripMenuItem.Click += new System.EventHandler(this.openImageToolStripMenuItem_Click);
             this.applicationForm.saveImageToolStripMenuItem.Click += new System.EventHandler(this.saveImageToolStripMenuItem_Click);
             this.applicationForm.convertToGrayscaleToolStripMenuItem.Click += new System.EventHandler(this.convertToGrayscaleToolStripMenuItem_Click);
-            this.applicationForm.erodeImageToolStripMenuItem.Click += new System.EventHandler(this.erodeImageToolStripMenuItem_Click);
             this.applicationForm.erodeTheImageToolStripMenuItem.Click += new System.EventHandler(this.DilatateTheImageToolStripMenuItem_Click);
             this.applicationForm.sharpenTheImageToolStripMenuItem.Click += new System.EventHandler(this.sharpenTheImageToolStripMenuItem_Click);
             this.applicationForm.button1.Click += new System.EventHandler(this.button1_Click);
@@ -71,14 +70,9 @@ namespace Image_procession_and_segmentation
         //"Image Analysis Tools->Erode the Image" event
         private void DilatateTheImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.DilatateGrayscaledImage();
-        }
-
-        //"Image Analysis Tools->Dilatate the Image" event
-        private void erodeImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
             this.ErodeGrayscaledImage();
         }
+
         private void sharpenTheImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.SharpenGrayscaledImage();
@@ -139,38 +133,7 @@ namespace Image_procession_and_segmentation
             else
                 MessageBox.Show("There is no image to Grayscale.");
         }
-        public void ErodeGrayscaledImage()  //kjkjkljl
-        {
-            if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
-            {
-                if (OpenedImageData.imageWasGrayscaled) //checks if the opened image was grayscaled
-                {
-                    if (OpenedImageData.imageWasEroded)//checks if the grayscaled image was already eroded
-                    //not first time erosion will erode the already eroded image
-                    {
-                        OpenedImageData.openedImageEroded = erosionFilter.Apply(OpenedImageData.openedImageEroded);
-                        this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageEroded;
-                    }
-                    else
-                    {
-                        //first time erosion will erode the grayscaled image 
-                        OpenedImageData.imageWasEroded = true;
-                        OpenedImageData.openedImageEroded = erosionFilter.Apply(OpenedImageData.openedImageGrayscaled);
-                        this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageEroded;
-
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Please, grayscale the image before applying the Dilatation");
-                    applicationForm.pictureBox1.Image = OpenedImageData.openedImage;
-                }
-            }
-            else
-                MessageBox.Show("There is no image to Dilatate.");
-  
-        }
-        public void DilatateGrayscaledImage()
+        public void ErodeGrayscaledImage()
         {
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {

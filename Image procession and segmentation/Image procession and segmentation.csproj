@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge.Imaging">
-      <HintPath>..\..\..\..\Dropbox\סמסטר א -תשעה\פרויקט שלב א\AForge.NET\Release\AForge.Imaging.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\AForge.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
