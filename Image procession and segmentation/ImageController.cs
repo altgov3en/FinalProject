@@ -142,13 +142,15 @@ namespace Image_procession_and_segmentation
                     if (OpenedImageData.imageWasEroded) //checks if the grayscaled image was already dilatated
                     //not first time dilatation will dilatate the already dilatated image
                     {
-                        this.ErosionFilter(this.OpenedImageData.openedImageEroded);                       
+                        this.OpenedImageData.openedImageEroded = this.dilatationFilter.Apply(this.OpenedImageData.openedImageEroded);
+                        this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageEroded;                       
                     }
                     else
                     {
                         //first time dilatation will dilatate the grayscaled image                
                         OpenedImageData.imageWasEroded = true;
-                        this.ErosionFilter(this.OpenedImageData.openedImageGrayscaled);
+                        this.OpenedImageData.openedImageEroded = this.dilatationFilter.Apply(this.OpenedImageData.openedImageGrayscaled);
+                        this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageEroded; ;
                     }
                 }
                 else
@@ -167,18 +169,20 @@ namespace Image_procession_and_segmentation
                 if (OpenedImageData.imageWasGrayscaled) //checks if the opened image was grayscaled
                 {
                     if (OpenedImageData.imageWasSharpened) //checks if the grayscaled image was already sharpened
-                        MessageBox.Show("This image is already sharpened.");
+                    {
+                        OpenedImageData.openedImageSharpened = sharpeningFilter.Apply(OpenedImageData.openedImageSharpened);
+                        this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageSharpened;
+                    }
                     else
                     {
                         //first time dilatation will dilatate the grayscaled image
-                        if(OpenedImageData.imageWasEroded)
+                        if (OpenedImageData.imageWasEroded)
                             OpenedImageData.openedImageSharpened = sharpeningFilter.Apply(OpenedImageData.openedImageEroded);
                         else
                             OpenedImageData.openedImageSharpened = sharpeningFilter.Apply(OpenedImageData.openedImageGrayscaled);
                         OpenedImageData.imageWasSharpened = true;
                         this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageSharpened;
                     }
-
                 }
                 else
                 {
@@ -193,9 +197,8 @@ namespace Image_procession_and_segmentation
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //This method applies 3x3 filter on sourceImage
-        public void ErosionFilter(Bitmap sourceImage) 
+        public void MyErosionFilter(Bitmap sourceImage) 
         {
-            #region MyRegion
             //BitmapData sourceData = sourceImage.LockBits(new System.Drawing.Rectangle(0, 0, OpenedImageData.openedImage.Width, OpenedImageData.openedImage.Height), 
             //                                             ImageLockMode.ReadWrite,
             //                                             PixelFormat.Format24bppRgb);
@@ -267,12 +270,7 @@ namespace Image_procession_and_segmentation
             //}
             //OpenedImageData.openedImageEroded.UnlockBits(destData);
             //this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageEroded; 
-            #endregion
-            this.OpenedImageData.openedImageEroded = this.dilatationFilter.Apply(sourceImage);
-            this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageEroded;
-
         }
-
         public void CalculateHistogram()
         {
             //What is pixel?
