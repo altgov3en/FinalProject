@@ -71,8 +71,7 @@ namespace Image_procession_and_segmentation
         //"Image Analysis Tools->Erode the Image" event
         private void DilatateTheImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.DilatateGrayscaledImage();
-            this.NEWerodeGrayscaledImage();
+            this.DilatateGrayscaledImage();
         }
 
         //"Image Analysis Tools->Dilatate the Image" event
@@ -180,16 +179,13 @@ namespace Image_procession_and_segmentation
                     if (OpenedImageData.imageWasDilatated) //checks if the grayscaled image was already dilatated
                     //not first time dilatation will dilatate the already dilatated image
                     {
-                        OpenedImageData.openedImageDilatated = dilatationFilter.Apply(OpenedImageData.openedImageDilatated);
-                        this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageDilatated;
+                        this.NEWerodeGrayscaledImage(this.OpenedImageData.openedImageEroded);                       
                     }
                     else
                     {
                         //first time dilatation will dilatate the grayscaled image                
                         OpenedImageData.imageWasDilatated = true;
-                        OpenedImageData.openedImageDilatated = dilatationFilter.Apply(OpenedImageData.openedImageGrayscaled);
-                        this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageDilatated;
-
+                        this.NEWerodeGrayscaledImage(this.OpenedImageData.openedImageGrayscaled);
                     }
                 }
                 else
@@ -237,9 +233,9 @@ namespace Image_procession_and_segmentation
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public void NEWerodeGrayscaledImage()
+        public void NEWerodeGrayscaledImage(Bitmap sourceimage)
         {
-            BitmapData sourceData = OpenedImageData.openedImageGrayscaled.LockBits(new System.Drawing.Rectangle(0, 0, OpenedImageData.openedImage.Width, OpenedImageData.openedImage.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            BitmapData sourceData = sourceimage.LockBits(new System.Drawing.Rectangle(0, 0, OpenedImageData.openedImage.Width, OpenedImageData.openedImage.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             
             OpenedImageData.openedImageEroded = new Bitmap(sourceData.Width, sourceData.Height);
             BitmapData destData = OpenedImageData.openedImageEroded.LockBits(new System.Drawing.Rectangle(0, 0, sourceData.Width, sourceData.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
@@ -248,7 +244,7 @@ namespace Image_procession_and_segmentation
             {
                 byte* sourcePtr = (byte*)sourceData.Scan0;
                 byte* destPtr = (byte*)destData.Scan0;
-
+      
                 int blueValue = 0;
                 int greenValue = 0;
                 int redValue = 0;
@@ -267,7 +263,7 @@ namespace Image_procession_and_segmentation
                         redValue += sourcePtr[5];
                         redValue += sourcePtr[8];
 
-                        sourcePtr += sourceData.Width;
+                        sourcePtr += sourceData.Width*3;
                         blueValue += sourcePtr[0];
                         blueValue += sourcePtr[6];
                         greenValue += sourcePtr[1];
@@ -275,7 +271,7 @@ namespace Image_procession_and_segmentation
                         redValue += sourcePtr[2];
                         redValue += sourcePtr[8];
 
-                        sourcePtr += sourceData.Width;
+                        sourcePtr += sourceData.Width*3;
                         blueValue += sourcePtr[0];
                         blueValue += sourcePtr[3];
                         blueValue += sourcePtr[6];
@@ -294,7 +290,7 @@ namespace Image_procession_and_segmentation
                         destPtr[1] = (byte)greenValue;
                         destPtr[2] = (byte)redValue;
 
-                        sourcePtr -= 2 * sourceData.Width;
+                        sourcePtr -= 2 * sourceData.Width*3;
                         sourcePtr += 3;
 
                         destPtr += 3;
