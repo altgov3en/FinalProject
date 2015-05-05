@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Histogram.cs" />
     <Compile Include="HistogramWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +64,7 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs" />
+    <Compile Include="MyErosion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="HistogramWindow.resx">
       <DependentUpon>HistogramWindow.cs</DependentUpon>
