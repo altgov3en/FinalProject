@@ -12,14 +12,15 @@ namespace Image_procession_and_segmentation
     {
         public Bitmap openedImageGrayscaled;
         public Bitmap openedImageHistogram;
-        public int[] openedImageHistogramArray; //holds the total number of pixel for every color (0-255)
+        public int[] openedImageHistogramArray; //holds the total number of pixel for every color in image (0-255)
+        public float[] imagePixelColorProbilityArray; //hold the probability for every pixel to be in specific color (0-255 colors)
 
         public Histogram(Bitmap source)
         {
             this.openedImageGrayscaled = source;
             this.openedImageHistogramArray = CalculateNumberOfPixelForEachColor();
+            this.imagePixelColorProbilityArray = CalculateColorProbability();
         } // constructor
-
         private int[] CalculateNumberOfPixelForEachColor()
         {
             int[] imageHistogram = new int[256]; //2^8=256 colors
@@ -39,7 +40,19 @@ namespace Image_procession_and_segmentation
             }
             return imageHistogram;
         }
+        private float[] CalculateColorProbability()
+        {
+            float[] colorProbability = new float[256]; //2^8=256 colors
+            float totalPixelCount = this.openedImageGrayscaled.Height * this.openedImageGrayscaled.Width; //total number of pixel in image
 
+            for (int i = 0; i < this.openedImageHistogramArray.Length; i++)
+            {
+                colorProbability[i] = (float)(this.openedImageHistogramArray[i]) / totalPixelCount; // Pr(pixel color is X) = (number of pixel colored in color X) / 
+                                                                                                    //                                    (total number of pixels)
+            }
+            float sum = colorProbability.Sum(); //total sum of probabilities must converge to 1
+            return colorProbability;
+        }
         public Bitmap CalculateHistogram()
         {
             //What is pixel?
@@ -104,7 +117,6 @@ namespace Image_procession_and_segmentation
             openedImageGrayscaled.UnlockBits(data);
             return this.openedImageHistogram;
         }
-
         public Bitmap DrawHistogram(int[] histogram)
         {
             Bitmap bmp = new Bitmap(histogram.Length + 10, 310); //new blank bitmap image
