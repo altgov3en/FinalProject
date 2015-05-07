@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clusters.cs" />
     <Compile Include="Histogram.cs" />
     <Compile Include="HistogramWindow.cs">
       <SubType>Form</SubType>

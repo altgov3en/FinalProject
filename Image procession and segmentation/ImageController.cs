@@ -19,6 +19,7 @@ namespace Image_procession_and_segmentation
         private Erosion erosionFilter = new Erosion();
         private Dilatation dilatationFilter = new Dilatation();
         private Sharpen sharpeningFilter = new Sharpen();
+        private Histogram imageHistogram;
 
         private MainWindow applicationForm;
         private ImageData OpenedImageData;
@@ -82,7 +83,6 @@ namespace Image_procession_and_segmentation
         private void button1_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            Histogram imageHistogram = new Histogram(OpenedImageData.openedImageGrayscaled);
             this.grayscaleHistogram.pictureBox1.Image = imageHistogram.CalculateHistogram(); //create and put the histogram of the grayscaled image to picture box
             grayscaleHistogram.Show(); // show histogram window
             applicationForm.button1.Visible = false; //make button invisible as histogram is created (change ref. to close button)
@@ -131,6 +131,7 @@ namespace Image_procession_and_segmentation
                 OpenedImageData.imageWasGrayscaled = true;
                 OpenedImageData.openedImageGrayscaled = grayScaleFilter.Apply(imageToConvert);
                 this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageGrayscaled;
+                this.imageHistogram = new Histogram(OpenedImageData.openedImageGrayscaled); //create histogram for grayscaled image histogram
                 applicationForm.button1.Visible = true; //"Show Image Histogram" button is anabled
                                                         //This image will appear only when the image is grayscaled 
             }
@@ -168,6 +169,9 @@ namespace Image_procession_and_segmentation
         }
         private void SharpenGrayscaledImage()
         {
+            Clusters imageClusters = new Clusters(2, OpenedImageData.openedImage.Height, OpenedImageData.openedImage.Width,
+                                                  this.imageHistogram, this.OpenedImageData.openedImageSharpened);
+
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
                 if (OpenedImageData.imageWasGrayscaled) //checks if the opened image was grayscaled
