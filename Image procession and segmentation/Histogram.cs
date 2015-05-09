@@ -11,6 +11,7 @@ namespace Image_procession_and_segmentation
     class Histogram
     {
         public Bitmap openedImageGrayscaled;
+        public Bitmap openedImageGraysledSharpened;
         public Bitmap openedImageHistogram;
         public int[] openedImageHistogramArray; //holds the total number of pixel for every color in image (0-255)
         public float[] imagePixelColorProbilityArray; //hold the probability for every pixel to be in specific color (0-255 colors)
@@ -53,7 +54,7 @@ namespace Image_procession_and_segmentation
             float sum = colorProbability.Sum(); //total sum of probabilities must converge to 1
             return colorProbability;
         }
-        public Bitmap CalculateHistogram()
+        public Bitmap CalculateHistogram(Bitmap src)
         {
             //What is pixel?
             /* Each pixel's color sample has three numerical RGB components (Red, Green, Blue)
@@ -64,7 +65,7 @@ namespace Image_procession_and_segmentation
              * to denote one Orange pixel.*/
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            BitmapData data = openedImageGrayscaled.LockBits(new System.Drawing.Rectangle(0, 0, openedImageGrayscaled.Width, openedImageGrayscaled.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            BitmapData data = src.LockBits(new System.Drawing.Rectangle(0, 0, openedImageGrayscaled.Width, openedImageGrayscaled.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
             unsafe
             {
@@ -114,7 +115,7 @@ namespace Image_procession_and_segmentation
                 }
                  this.openedImageHistogram = DrawHistogram(histogram);
             }
-            openedImageGrayscaled.UnlockBits(data);
+            src.UnlockBits(data);
             return this.openedImageHistogram;
         }
         public Bitmap DrawHistogram(int[] histogram)

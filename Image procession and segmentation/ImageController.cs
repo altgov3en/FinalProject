@@ -20,6 +20,7 @@ namespace Image_procession_and_segmentation
         private Dilatation dilatationFilter = new Dilatation();
         private Sharpen sharpeningFilter = new Sharpen();
         private Histogram imageHistogram;
+        private Clusters imageClusters;
 
         private MainWindow applicationForm;
         private ImageData OpenedImageData;
@@ -83,9 +84,19 @@ namespace Image_procession_and_segmentation
         private void button1_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            this.grayscaleHistogram.pictureBox1.Image = imageHistogram.CalculateHistogram(); //create and put the histogram of the grayscaled image to picture box
+
+            if(this.OpenedImageData.imageWasSharpened)
+                this.grayscaleHistogram.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageSharpened); //create and put the histogram of the grayscaled image to picture box
+            else
+                if (this.OpenedImageData.imageWasEroded)
+                    this.grayscaleHistogram.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageEroded);
+                else
+                    if (this.OpenedImageData.imageWasGrayscaled)
+                        this.grayscaleHistogram.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageGrayscaled);
+
+
             grayscaleHistogram.Show(); // show histogram window
-            applicationForm.button1.Visible = false; //make button invisible as histogram is created (change ref. to close button)
+            //applicationForm.button1.Visible = false; //make button invisible as histogram is created (change ref. to close button)
             Cursor.Current = Cursors.Arrow;
         }
 
@@ -100,7 +111,7 @@ namespace Image_procession_and_segmentation
             {
                 OpenedImageData.openedImage = new Bitmap(openDialog.FileName);
                 OpenedImageData.imageWasOpened = true; //indicates if user opened the image
-                this.applicationForm.pictureBox1.Image = OpenedImageData.openedImage; //Set opened image to main window 
+                this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImage; //Set opened image to main window 
             }
         }
         public void SaveImage(ImageData ImageView)
@@ -126,6 +137,7 @@ namespace Image_procession_and_segmentation
         }
         public void ConvertToGrayscale(Bitmap imageToConvert)
         {
+            Cursor.Current = Cursors.WaitCursor;
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
                 OpenedImageData.imageWasGrayscaled = true;
@@ -137,9 +149,11 @@ namespace Image_procession_and_segmentation
             }
             else
                 MessageBox.Show("There is no image to Grayscale.");
+            Cursor.Current = Cursors.Arrow;
         }
         public void ErodeGrayscaledImage()
         {
+            Cursor.Current = Cursors.WaitCursor;
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
                 if (OpenedImageData.imageWasGrayscaled) //checks if the opened image was grayscaled
@@ -166,11 +180,13 @@ namespace Image_procession_and_segmentation
             }
             else
                 MessageBox.Show("There is no image to Erode.");
+            Cursor.Current = Cursors.Arrow;
         }
         private void SharpenGrayscaledImage()
         {
-            Clusters imageClusters = new Clusters(2, OpenedImageData.openedImage.Height, OpenedImageData.openedImage.Width,
-                                                  this.imageHistogram, this.OpenedImageData.openedImageSharpened);
+            Cursor.Current = Cursors.WaitCursor;
+            //this.imageClusters = new Clusters(2, OpenedImageData.openedImage.Height, OpenedImageData.openedImage.Width,
+            //                                      this.imageHistogram, this.OpenedImageData.openedImageSharpened);
 
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
@@ -179,7 +195,9 @@ namespace Image_procession_and_segmentation
                     if (OpenedImageData.imageWasSharpened) //checks if the grayscaled image was already sharpened
                     {
                         OpenedImageData.openedImageSharpened = sharpeningFilter.Apply(OpenedImageData.openedImageSharpened);
-                        this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageSharpened;
+                        this.imageHistogram.openedImageGraysledSharpened = this.OpenedImageData.openedImageSharpened; //store the image in histogram object
+                        this.imageHistogram = new Histogram(OpenedImageData.openedImageSharpened); //create histogram for grayscaled image histogram
+                        this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageSharpened; //put the picture into picture box
                     }
                     else
                     {
@@ -200,8 +218,25 @@ namespace Image_procession_and_segmentation
             }
             else
                 MessageBox.Show("There is no image to Sharp.");
+            //this.DrawSeparetedClusters();
+            Cursor.Current = Cursors.Arrow;
         }
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private void DrawSeparetedClusters()
+        {
+            for (int i = 0; i < this.OpenedImageData.openedImage.Height; i++)
+            {
+                for (int j = 0; j < this.OpenedImageData.openedImage.Width; j++)
+                {
+                    if (this.imageClusters.likelihood[0,i,j] == 1)
+                    {
+
+                        this.OpenedImageData.openedImage.SetPixel(i, j, Color.White);
+                    }
+                }
+            }
+            this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImage; //Set opened image to main window 
+        }
     }
 }
