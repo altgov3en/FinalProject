@@ -14,9 +14,14 @@ namespace Image_procession_and_segmentation
         private int imageWidth;
         public int numberOfClusters;
         private Bitmap openedImage;
-        int[] cl;
-        public double[,,] likelihood;   //Likelihood matrix
+        public Bitmap imageAfterEM;
+        private int[] cl;
         private Histogram histogram;
+        private EM_algorithm EMA;
+
+        public double[, ,] likelihood;   //Likelihood matrix
+
+
 
         public Clusters(int n, int h, int w, Histogram imageHistogram, Bitmap source)
         {
@@ -30,6 +35,11 @@ namespace Image_procession_and_segmentation
 
             this.GetClusterColor(this.numberOfClusters);
             this.InitiateLikelihood();
+
+            this.EMA = new EM_algorithm(this.numberOfClusters, this.openedImage, this.likelihood);
+            this.imageAfterEM = this.EMA.run(1); //!!!MUST BE FOUND BY BOOK!!!
+
+
         }
 
         private void GetClusterColor(int numberOfClusters)

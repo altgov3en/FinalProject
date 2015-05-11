@@ -40,9 +40,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.originalImagePBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.originalImagePBox.Location = new System.Drawing.Point(12, 12);
+            this.originalImagePBox.Location = new System.Drawing.Point(7, 12);
             this.originalImagePBox.Name = "originalImagePBox";
-            this.originalImagePBox.Size = new System.Drawing.Size(531, 544);
+            this.originalImagePBox.Size = new System.Drawing.Size(536, 544);
             this.originalImagePBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.originalImagePBox.TabIndex = 0;
             this.originalImagePBox.TabStop = false;

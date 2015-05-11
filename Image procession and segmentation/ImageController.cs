@@ -246,26 +246,28 @@ namespace Image_procession_and_segmentation
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void DrawSeparetedClusters() //!!!MOVE TO CLUSTER CLASS!!!
         {
-            this.OpenedImageData.openedImageSegmented = new Bitmap(this.OpenedImageData.openedImage);
+            //this.OpenedImageData.openedImageSegmented = new Bitmap(this.OpenedImageData.openedImage);
 
-            Color[] colorArr = { Color.Red, Color.Yellow, Color.Blue, Color.Green, Color.Black };
+            //Color[] colorArr = { Color.Red, Color.Yellow, Color.Blue, Color.Green, Color.Black };
 
-            for (int i = 0; i < this.OpenedImageData.openedImageSegmented.Height; i++)
-            {
-                for (int j = 0; j < this.OpenedImageData.openedImageSegmented.Width; j++)
-                {
-                    for (int c = 1; c < this.imageClusters.numberOfClusters; c++)
-                    {
-                        if (this.imageClusters.likelihood[c, i, j] == 1)
-                        {
+            //for (int i = 0; i < this.OpenedImageData.openedImageSegmented.Height; i++)
+            //{
+            //    for (int j = 0; j < this.OpenedImageData.openedImageSegmented.Width; j++)
+            //    {
+            //        for (int c = 1; c < this.imageClusters.numberOfClusters; c++)
+            //        {
+            //            if (this.imageClusters.likelihood[c, i, j] == 1)
+            //            {
 
-                            this.OpenedImageData.openedImageSegmented.SetPixel(i, j, colorArr[c]);
-                        }
-                    }
-                }
-            }
-            this.segmentedImageForm.segmentedImagePBox.Image = this.OpenedImageData.openedImageSegmented;
+            //                this.OpenedImageData.openedImageSegmented.SetPixel(i, j, colorArr[c]);
+            //            }
+            //        }
+            //    }
+            //}
+            //this.segmentedImageForm.segmentedImagePBox.Image = this.OpenedImageData.openedImageSegmented;
+            this.segmentedImageForm.segmentedImagePBox.Image = this.imageClusters.imageAfterEM;
             this.segmentedImageForm.originalImagePBox.Image = this.OpenedImageData.openedImage;
+
         }
     }
 }
