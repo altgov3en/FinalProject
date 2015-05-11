@@ -20,6 +20,7 @@ namespace Image_procession_and_segmentation
         public Bitmap openedImageEroded;     //stores the eroded image
         public Bitmap openedImageDilatated;  //stores the eroded image
         public Bitmap openedImageSharpened;  //stores the sharpened image
+        public Bitmap openedImageSegmented;  //stores the segmented image
 
         public Boolean imageWasOpened = false;      //indicates if the image was opened
         public Boolean imageWasGrayscaled = false;  //indicates if the image was grayscaled

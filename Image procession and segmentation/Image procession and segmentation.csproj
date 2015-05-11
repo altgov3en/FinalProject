@@ -49,6 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clusters.cs" />
+    <Compile Include="SegmentedImageWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SegmentedImageWindow.Designer.cs">
+      <DependentUpon>SegmentedImageWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Histogram.cs" />
     <Compile Include="HistogramWindow.cs">
       <SubType>Form</SubType>
@@ -67,6 +73,9 @@
     <Compile Include="Main.cs" />
     <Compile Include="MyErosion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="SegmentedImageWindow.resx">
+      <DependentUpon>SegmentedImageWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HistogramWindow.resx">
       <DependentUpon>HistogramWindow.cs</DependentUpon>
     </EmbeddedResource>

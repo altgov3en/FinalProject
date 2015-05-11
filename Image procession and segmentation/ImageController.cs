@@ -24,13 +24,16 @@ namespace Image_procession_and_segmentation
 
         private MainWindow applicationForm;
         private ImageData OpenedImageData;
-        private HistogramWindow grayscaleHistogram;
+        private HistogramWindow grayscaleHistogramForm;
+        private SegmentedImageWindow segmentedImageForm;
 
-        public ImageController(MainWindow applicationForm, HistogramWindow grayscaleHistogram, ImageData OpenedImageData) //Constructor
+        public ImageController(MainWindow applicationForm, HistogramWindow grayscaleHistogramForm,
+                               SegmentedImageWindow segmentedImageForm, ImageData OpenedImageData) //Constructor
         {
             // TODO: Complete member initialization
             this.applicationForm = applicationForm;
-            this.grayscaleHistogram = grayscaleHistogram;
+            this.grayscaleHistogramForm = grayscaleHistogramForm;
+            this.segmentedImageForm = segmentedImageForm;
             this.OpenedImageData = OpenedImageData;
             this.applicationForm.Load += new System.EventHandler(this.Form1_Load);
             this.applicationForm.imageAnalysisToolsToolStripMenuItem.Click += new System.EventHandler(this.imageAnalysisToolsToolStripMenuItem_Click);
@@ -39,7 +42,8 @@ namespace Image_procession_and_segmentation
             this.applicationForm.convertToGrayscaleToolStripMenuItem.Click += new System.EventHandler(this.convertToGrayscaleToolStripMenuItem_Click);
             this.applicationForm.erodeTheImageToolStripMenuItem.Click += new System.EventHandler(this.DilatateTheImageToolStripMenuItem_Click);
             this.applicationForm.sharpenTheImageToolStripMenuItem.Click += new System.EventHandler(this.sharpenTheImageToolStripMenuItem_Click);
-            this.applicationForm.button1.Click += new System.EventHandler(this.button1_Click);
+            this.applicationForm.showHistogramButton.Click += new System.EventHandler(this.ShowHistogramButton_Click);
+            this.applicationForm.showSegImageButton.Click += new System.EventHandler(this.ShowSegImageButton_Click);
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,22 +85,41 @@ namespace Image_procession_and_segmentation
         }
 
         //Click->"Show Image Histogram"
-        private void button1_Click(object sender, EventArgs e)
+        private void ShowHistogramButton_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
 
             if(this.OpenedImageData.imageWasSharpened)
-                this.grayscaleHistogram.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageSharpened); //create and put the histogram of the grayscaled image to picture box
+                this.grayscaleHistogramForm.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageSharpened); //create and put the histogram of the grayscaled image to picture box
             else
                 if (this.OpenedImageData.imageWasEroded)
-                    this.grayscaleHistogram.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageEroded);
+                    this.grayscaleHistogramForm.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageEroded);
                 else
                     if (this.OpenedImageData.imageWasGrayscaled)
-                        this.grayscaleHistogram.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageGrayscaled);
+                        this.grayscaleHistogramForm.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageGrayscaled);
 
 
-            grayscaleHistogram.Show(); // show histogram window
+            this.grayscaleHistogramForm.Show(); // show histogram window
             //applicationForm.button1.Visible = false; //make button invisible as histogram is created (change ref. to close button)
+            Cursor.Current = Cursors.Arrow;
+        }
+
+        //Click->"Show Segmented Image"
+        private void ShowSegImageButton_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+
+            if(this.OpenedImageData.imageWasSharpened == false)
+            {
+                MessageBox.Show("Cannot display Segmented image.\n-The image must be Sharpened.\n");
+                return;
+            }
+
+            this.imageClusters = new Clusters(5, OpenedImageData.openedImage.Height, OpenedImageData.openedImage.Width,
+                                              this.imageHistogram, this.OpenedImageData.openedImageSharpened);
+
+            this.DrawSeparetedClusters();
+            this.segmentedImageForm.Show();
             Cursor.Current = Cursors.Arrow;
         }
 
@@ -144,8 +167,9 @@ namespace Image_procession_and_segmentation
                 OpenedImageData.openedImageGrayscaled = grayScaleFilter.Apply(imageToConvert);
                 this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageGrayscaled;
                 this.imageHistogram = new Histogram(OpenedImageData.openedImageGrayscaled); //create histogram for grayscaled image histogram
-                applicationForm.button1.Visible = true; //"Show Image Histogram" button is anabled
-                                                        //This image will appear only when the image is grayscaled 
+
+                this.applicationForm.showHistogramButton.Visible = true; //"Show Image Histogram" button is anabled                                                        
+                this.applicationForm.showSegImageButton.Visible = true; //"Show Segemented Image" button is anabled
             }
             else
                 MessageBox.Show("There is no image to Grayscale.");
@@ -185,8 +209,6 @@ namespace Image_procession_and_segmentation
         private void SharpenGrayscaledImage()
         {
             Cursor.Current = Cursors.WaitCursor;
-            //this.imageClusters = new Clusters(2, OpenedImageData.openedImage.Height, OpenedImageData.openedImage.Width,
-            //                                      this.imageHistogram, this.OpenedImageData.openedImageSharpened);
 
             if (OpenedImageData.imageWasOpened) //checks if user opened any image to be analyzed
             {
@@ -218,25 +240,32 @@ namespace Image_procession_and_segmentation
             }
             else
                 MessageBox.Show("There is no image to Sharp.");
-            //this.DrawSeparetedClusters();
             Cursor.Current = Cursors.Arrow;
         }
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private void DrawSeparetedClusters()
+        private void DrawSeparetedClusters() //!!!MOVE TO CLUSTER CLASS!!!
         {
-            for (int i = 0; i < this.OpenedImageData.openedImage.Height; i++)
-            {
-                for (int j = 0; j < this.OpenedImageData.openedImage.Width; j++)
-                {
-                    if (this.imageClusters.likelihood[0,i,j] == 1)
-                    {
+            this.OpenedImageData.openedImageSegmented = new Bitmap(this.OpenedImageData.openedImage);
 
-                        this.OpenedImageData.openedImage.SetPixel(i, j, Color.White);
+            Color[] colorArr = { Color.Red, Color.Yellow, Color.Blue, Color.Green, Color.Black };
+
+            for (int i = 0; i < this.OpenedImageData.openedImageSegmented.Height; i++)
+            {
+                for (int j = 0; j < this.OpenedImageData.openedImageSegmented.Width; j++)
+                {
+                    for (int c = 1; c < this.imageClusters.numberOfClusters; c++)
+                    {
+                        if (this.imageClusters.likelihood[c, i, j] == 1)
+                        {
+
+                            this.OpenedImageData.openedImageSegmented.SetPixel(i, j, colorArr[c]);
+                        }
                     }
                 }
             }
-            this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImage; //Set opened image to main window 
+            this.segmentedImageForm.segmentedImagePBox.Image = this.OpenedImageData.openedImageSegmented;
+            this.segmentedImageForm.originalImagePBox.Image = this.OpenedImageData.openedImage;
         }
     }
 }

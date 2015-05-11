@@ -37,7 +37,8 @@
             this.erodeTheImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sharpenTheImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.showHistogramButton = new System.Windows.Forms.Button();
+            this.showSegImageButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -112,24 +113,37 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
-            // button1
+            // showHistogramButton
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Location = new System.Drawing.Point(282, 553);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(183, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Show Image Histogram";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
+            this.showHistogramButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.showHistogramButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.showHistogramButton.Location = new System.Drawing.Point(282, 553);
+            this.showHistogramButton.Name = "showHistogramButton";
+            this.showHistogramButton.Size = new System.Drawing.Size(183, 23);
+            this.showHistogramButton.TabIndex = 2;
+            this.showHistogramButton.Text = "Show Image Histogram";
+            this.showHistogramButton.UseVisualStyleBackColor = true;
+            this.showHistogramButton.Visible = false;
+            // 
+            // showSegImageButton
+            // 
+            this.showSegImageButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.showSegImageButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.showSegImageButton.Location = new System.Drawing.Point(282, 524);
+            this.showSegImageButton.Name = "showSegImageButton";
+            this.showSegImageButton.Size = new System.Drawing.Size(183, 23);
+            this.showSegImageButton.TabIndex = 3;
+            this.showSegImageButton.Text = "Show Segmented Image";
+            this.showSegImageButton.UseVisualStyleBackColor = true;
+            this.showSegImageButton.Visible = false;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(747, 588);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.showSegImageButton);
+            this.Controls.Add(this.showHistogramButton);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -154,7 +168,8 @@
         internal System.Windows.Forms.ToolStripMenuItem convertToGrayscaleToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem erodeTheImageToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem sharpenTheImageToolStripMenuItem;
-        internal System.Windows.Forms.Button button1;
+        internal System.Windows.Forms.Button showHistogramButton;
+        internal System.Windows.Forms.Button showSegImageButton;
     }
 }
 

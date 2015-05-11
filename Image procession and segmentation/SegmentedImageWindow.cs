@@ -10,17 +10,11 @@ using System.Windows.Forms;
 
 namespace Image_procession_and_segmentation
 {
-        public partial class MainWindow : Form
+    public partial class SegmentedImageWindow : Form
     {
-
-        public MainWindow()
+        public SegmentedImageWindow()
         {
             InitializeComponent();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
