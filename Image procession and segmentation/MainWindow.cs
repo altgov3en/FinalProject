@@ -12,15 +12,9 @@ namespace Image_procession_and_segmentation
 {
         public partial class MainWindow : Form
     {
-
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace Image_procession_and_segmentation
+﻿using AForge.Imaging;
+namespace Image_procession_and_segmentation
 {
     partial class MainWindow
     {
@@ -28,6 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +52,7 @@
             this.imageAnalysisToolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(747, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(670, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -106,9 +108,10 @@
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(0, 24);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(747, 564);
+            this.pictureBox1.Size = new System.Drawing.Size(670, 394);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -117,7 +120,7 @@
             // 
             this.showHistogramButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.showHistogramButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.showHistogramButton.Location = new System.Drawing.Point(282, 553);
+            this.showHistogramButton.Location = new System.Drawing.Point(244, 383);
             this.showHistogramButton.Name = "showHistogramButton";
             this.showHistogramButton.Size = new System.Drawing.Size(183, 23);
             this.showHistogramButton.TabIndex = 2;
@@ -129,7 +132,7 @@
             // 
             this.showSegImageButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.showSegImageButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.showSegImageButton.Location = new System.Drawing.Point(282, 524);
+            this.showSegImageButton.Location = new System.Drawing.Point(244, 354);
             this.showSegImageButton.Name = "showSegImageButton";
             this.showSegImageButton.Size = new System.Drawing.Size(183, 23);
             this.showSegImageButton.TabIndex = 3;
@@ -141,7 +144,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 588);
+            this.ClientSize = new System.Drawing.Size(670, 418);
             this.Controls.Add(this.showSegImageButton);
             this.Controls.Add(this.showHistogramButton);
             this.Controls.Add(this.pictureBox1);

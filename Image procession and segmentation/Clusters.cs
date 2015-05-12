@@ -37,7 +37,7 @@ namespace Image_procession_and_segmentation
             this.InitiateLikelihood();
 
             this.EMA = new EM_algorithm(this.numberOfClusters, this.openedImage, this.likelihood);
-            this.imageAfterEM = this.EMA.run(1); //!!!MUST BE FOUND BY BOOK!!!
+            this.imageAfterEM = this.EMA.run(5); //!!!MUST BE FOUND BY BOOK!!!
 
 
         }
