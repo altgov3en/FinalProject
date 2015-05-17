@@ -13,6 +13,8 @@ namespace Image_procession_and_segmentation
         private int imageHeight;
         private int imageWidth;
         public int numberOfClusters;
+        public int[] SumOfHistogramPeaks;
+
         private Bitmap openedImage;
         public Bitmap imageAfterEM;
         private int[] cl;
@@ -23,7 +25,7 @@ namespace Image_procession_and_segmentation
 
 
 
-        public Clusters(int n, int h, int w, Histogram imageHistogram, Bitmap source)
+        public Clusters(int n, int h, int w, Histogram imageHistogram, Bitmap source) //constructor
         {
             this.numberOfClusters = n;
             this.imageHeight = h;
@@ -37,11 +39,10 @@ namespace Image_procession_and_segmentation
             this.InitiateLikelihood();
 
             this.EMA = new EM_algorithm(this.numberOfClusters, this.openedImage, this.likelihood);
-            this.imageAfterEM = this.EMA.run(5); //!!!MUST BE FOUND BY BOOK!!!
+            //this.imageAfterEM = this.EMA.run(10); //!!!MUST BE FOUND BY BOOK!!!
 
 
         }
-
         private void GetClusterColor(int numberOfClusters)
         {
             float[] imageHistogramAVG = CalculateAverageHistogram(this.histogram.openedImageHistogramArray);
@@ -101,7 +102,6 @@ namespace Image_procession_and_segmentation
 
             return (int)imageHistogramAVG[max];
         }
-
         private int NumOfDesClusters(float[] imageHistogramAVG, int thValue, int thBottom)
         {
             int cnt = 0;
@@ -114,7 +114,6 @@ namespace Image_procession_and_segmentation
 
             return cnt;
         }
-
         private int[] GetClusters(float[] imageHistogramAVG, int thValue, int cnum, int thBottom)
         {
             int[] clusters = new int[cnum];
@@ -132,7 +131,6 @@ namespace Image_procession_and_segmentation
 
             return clusters;
         }
-
         private float[] CalculateAverageHistogram(int[] imageHistogram)
         {
             float[] avgArray = new float[32];
@@ -152,7 +150,6 @@ namespace Image_procession_and_segmentation
 
             return avgArray;
         }
-
         public int RunOtsu(int total, int bottom)
         {
             int sum = 0;
@@ -198,6 +195,5 @@ namespace Image_procession_and_segmentation
             }
             return (int)((treshold1 + treshold2) / 2);
         }
-
     }
 }

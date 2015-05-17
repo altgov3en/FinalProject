@@ -21,6 +21,7 @@ namespace Image_procession_and_segmentation
         private Sharpen sharpeningFilter = new Sharpen();
         private Histogram imageHistogram;
         private Clusters imageClusters;
+        private Sampling histogramSamples;
 
         private MainWindow applicationForm;
         private ImageData OpenedImageData;
@@ -90,7 +91,8 @@ namespace Image_procession_and_segmentation
             Cursor.Current = Cursors.WaitCursor;
 
             if(this.OpenedImageData.imageWasSharpened)
-                this.grayscaleHistogramForm.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageSharpened); //create and put the histogram of the grayscaled image to picture box
+                this.grayscaleHistogramForm.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageSharpened); 
+                                                                        //create and put the histogram of the grayscaled image to picture box
             else
                 if (this.OpenedImageData.imageWasEroded)
                     this.grayscaleHistogramForm.pictureBox1.Image = imageHistogram.CalculateHistogram(this.OpenedImageData.openedImageEroded);
@@ -115,8 +117,16 @@ namespace Image_procession_and_segmentation
                 return;
             }
 
+
             this.imageClusters = new Clusters(5, OpenedImageData.openedImage.Height, OpenedImageData.openedImage.Width,
                                               this.imageHistogram, this.OpenedImageData.openedImageSharpened);
+
+            //////TEST - draw cumulative sum of pixels
+            this.histogramSamples = new Sampling(this.imageHistogram);
+            //this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.histogramSamples.SumOfHistogramPeaks);
+            this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.histogramSamples.histogramSamples);
+            this.grayscaleHistogramForm.Show();
+            //////END TEST
 
             this.DrawSeparetedClusters();
             this.segmentedImageForm.Show();

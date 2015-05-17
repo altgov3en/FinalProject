@@ -20,7 +20,6 @@ namespace Image_procession_and_segmentation
         {
             this.openedImageGrayscaled = source;
             this.openedImageHistogramArray = CalculateNumberOfPixelForEachColor();
-            this.imagePixelColorProbilityArray = CalculateColorProbability();
         } // constructor
         private int[] CalculateNumberOfPixelForEachColor()
         {
@@ -41,19 +40,19 @@ namespace Image_procession_and_segmentation
             }
             return imageHistogram;
         }
-        private float[] CalculateColorProbability()
-        {
-            float[] colorProbability = new float[256]; //2^8=256 colors
-            float totalPixelCount = this.openedImageGrayscaled.Height * this.openedImageGrayscaled.Width; //total number of pixel in image
+        //private float[] CalculateColorProbability()
+        //{
+        //    float[] colorProbability = new float[256]; //2^8=256 colors
+        //    float totalPixelCount = this.openedImageGrayscaled.Height * this.openedImageGrayscaled.Width; //total number of pixel in image
 
-            for (int i = 0; i < this.openedImageHistogramArray.Length; i++)
-            {
-                colorProbability[i] = (float)(this.openedImageHistogramArray[i]) / totalPixelCount; // Pr(pixel color is X) = (number of pixel colored in color X) / 
-                                                                                                    //                                    (total number of pixels)
-            }
-            float sum = colorProbability.Sum(); //total sum of probabilities must converge to 1
-            return colorProbability;
-        }
+        //    for (int i = 0; i < this.openedImageHistogramArray.Length; i++)
+        //    {
+        //        colorProbability[i] = (float)(this.openedImageHistogramArray[i]) / totalPixelCount; // Pr(pixel color is X) = (number of pixel colored in color X) / 
+        //                                                                                            //                                    (total number of pixels)
+        //    }
+        //    float sum = colorProbability.Sum(); //total sum of probabilities must converge to 1
+        //    return colorProbability;
+        //}
         public Bitmap CalculateHistogram(Bitmap src)
         {
             //What is pixel?
