@@ -14,7 +14,9 @@ namespace Image_procession_and_segmentation
         public Bitmap openedImageGraysledSharpened;
         public Bitmap openedImageHistogram;
         public int[] openedImageHistogramArray; //holds the total number of pixel for every color in image (0-255)
-        public float[] imagePixelColorProbilityArray; //hold the probability for every pixel to be in specific color (0-255 colors)
+        //public float[] imagePixelColorProbilityArray; //hold the probability for every pixel to be in specific color (0-255 colors)
+        public int[] histogramSamples; //contain 50 randomized samples of image histogram
+        public int[] sumOfHistogramPeaks; //contain the cumulative pixel count for each color
 
         public Histogram(Bitmap source)
         {
@@ -112,7 +114,7 @@ namespace Image_procession_and_segmentation
 
                     ptr += remain; //this will actualy take the pointer to the new image row
                 }
-                 this.openedImageHistogram = DrawHistogram(histogram);
+                this.openedImageHistogram = DrawHistogram(histogram);
             }
             src.UnlockBits(data);
             return this.openedImageHistogram;
@@ -161,6 +163,27 @@ namespace Image_procession_and_segmentation
             }
             bmp.UnlockBits(data);
             return bmp;
+        }
+        public void CalculateCumulativeSumOfHistogramPeaks() // calculates the cumulative pixel count for each color
+        // for example: SumOfHistogramPeaks[i] = Sum(imageHistogram[0] to imageHistogram[i])
+        {
+            this.sumOfHistogramPeaks = new int[256];
+            this.sumOfHistogramPeaks[0] = this.openedImageHistogramArray[0];
+
+            for (int i = 1; i < this.openedImageHistogramArray.Length; i++)
+                this.sumOfHistogramPeaks[i] = this.sumOfHistogramPeaks[i - 1] + this.openedImageHistogramArray[i];
+        }
+
+        public void GetHistogramSamples()
+        {
+            this.histogramSamples = new int[256];
+            Random randomized = new Random();
+
+            for (int i = 0; i < 50; i++)
+            {
+                int r = randomized.Next(0, 255);
+                this.histogramSamples[r] = this.openedImageHistogramArray[r];
+            }
         }
     }
 }

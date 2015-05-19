@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="Clusters.cs" />
     <Compile Include="EM_algorithm.cs" />
-    <Compile Include="Sampling.cs" />
     <Compile Include="SegmentedImageWindow.cs">
       <SubType>Form</SubType>
     </Compile>

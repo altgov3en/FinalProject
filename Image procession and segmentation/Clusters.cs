@@ -15,6 +15,8 @@ namespace Image_procession_and_segmentation
         public int numberOfClusters;
         public int[] SumOfHistogramPeaks;
 
+        private bool estimatingNumberOfClasters = true; ////////////////////////change
+
         private Bitmap openedImage;
         public Bitmap imageAfterEM;
         private int[] cl;
@@ -45,7 +47,11 @@ namespace Image_procession_and_segmentation
         }
         private void GetClusterColor(int numberOfClusters)
         {
-            float[] imageHistogramAVG = CalculateAverageHistogram(this.histogram.openedImageHistogramArray);
+            //if(estimatingNumberOfClasters == true)
+                float[] imageHistogramAVG = CalculateAverageHistogram(this.histogram.histogramSamples);
+            //else
+                //float[] imageHistogramAVG = CalculateAverageHistogram(this.histogram.openedImageHistogramArray);
+
             this.cl[0] = 0;
             int i = 1;
             int treshold = 70;
@@ -141,6 +147,7 @@ namespace Image_procession_and_segmentation
             {
                 for (int j = i * 8; j < i * 8 + 8; j++)
                 {
+                    //sumOf8Pixels = sumOf8Pixels + imageHistogram[j];
                     sumOf8Pixels = sumOf8Pixels + imageHistogram[j];
                 }
 
@@ -153,7 +160,7 @@ namespace Image_procession_and_segmentation
         public int RunOtsu(int total, int bottom)
         {
             int sum = 0;
-            for (int i = bottom; i < 256; ++i)
+            for (int i = bottom; i < this.histogram.openedImageHistogramArray.Length; ++i)
                 sum += i * this.histogram.openedImageHistogramArray[i];
 
             int sumB = 0;
@@ -167,7 +174,7 @@ namespace Image_procession_and_segmentation
             double between = 0; //class variance
             double treshold1 = 0;
             double treshold2 = 0;
-            for (int i = bottom; i < 256; ++i) //step through all possible thresholds (1 to maximum intensity)
+            for (int i = bottom; i < this.histogram.openedImageHistogramArray.Length; ++i) //step through all possible thresholds (1 to maximum intensity)
             {
                 weightOfBackground += this.histogram.openedImageHistogramArray[i];
 

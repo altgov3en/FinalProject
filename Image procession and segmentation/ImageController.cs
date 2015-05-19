@@ -21,7 +21,6 @@ namespace Image_procession_and_segmentation
         private Sharpen sharpeningFilter = new Sharpen();
         private Histogram imageHistogram;
         private Clusters imageClusters;
-        private Sampling histogramSamples;
 
         private MainWindow applicationForm;
         private ImageData OpenedImageData;
@@ -122,10 +121,11 @@ namespace Image_procession_and_segmentation
                                               this.imageHistogram, this.OpenedImageData.openedImageSharpened);
 
             //////TEST - draw cumulative sum of pixels
-            this.histogramSamples = new Sampling(this.imageHistogram);
+            this.imageHistogram.GetHistogramSamples();
             //this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.histogramSamples.SumOfHistogramPeaks);
-            this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.histogramSamples.histogramSamples);
+            this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.imageHistogram.histogramSamples);
             this.grayscaleHistogramForm.Show();
+            Clusters cl = new Clusters(1, this.OpenedImageData.openedImage.Height, this.OpenedImageData.openedImage.Width, this.imageHistogram, this.OpenedImageData.openedImageSharpened);
             //////END TEST
 
             this.DrawSeparetedClusters();
