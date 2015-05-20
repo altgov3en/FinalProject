@@ -14,14 +14,15 @@ namespace Image_procession_and_segmentation
         public Bitmap openedImageGraysledSharpened;
         public Bitmap openedImageHistogram;
         public int[] openedImageHistogramArray; //holds the total number of pixel for every color in image (0-255)
-        //public float[] imagePixelColorProbilityArray; //hold the probability for every pixel to be in specific color (0-255 colors)
+        public float[] imagePixelColorProbilityArray; //hold the probability for every pixel to be in specific color (0-255 colors)
         public int[] histogramSamples; //contain 50 randomized samples of image histogram
-        public int[] sumOfHistogramPeaks; //contain the cumulative pixel count for each color
+        public float[] sumOfHistogramPeaks; //contain the cumulative pixel count for each color
 
         public Histogram(Bitmap source)
         {
             this.openedImageGrayscaled = source;
-            this.openedImageHistogramArray = CalculateNumberOfPixelForEachColor();
+            this.openedImageHistogramArray = this.CalculateNumberOfPixelForEachColor();
+            this.imagePixelColorProbilityArray = this.CalculateColorProbability();
         } // constructor
         private int[] CalculateNumberOfPixelForEachColor()
         {
@@ -42,19 +43,19 @@ namespace Image_procession_and_segmentation
             }
             return imageHistogram;
         }
-        //private float[] CalculateColorProbability()
-        //{
-        //    float[] colorProbability = new float[256]; //2^8=256 colors
-        //    float totalPixelCount = this.openedImageGrayscaled.Height * this.openedImageGrayscaled.Width; //total number of pixel in image
+        private float[] CalculateColorProbability()
+        {
+            float[] colorProbability = new float[256]; //2^8=256 colors
+            float totalPixelCount = this.openedImageGrayscaled.Height * this.openedImageGrayscaled.Width; //total number of pixel in image
 
-        //    for (int i = 0; i < this.openedImageHistogramArray.Length; i++)
-        //    {
-        //        colorProbability[i] = (float)(this.openedImageHistogramArray[i]) / totalPixelCount; // Pr(pixel color is X) = (number of pixel colored in color X) / 
-        //                                                                                            //                                    (total number of pixels)
-        //    }
-        //    float sum = colorProbability.Sum(); //total sum of probabilities must converge to 1
-        //    return colorProbability;
-        //}
+            for (int i = 0; i < this.openedImageHistogramArray.Length; i++)
+            {
+                colorProbability[i] = (float)(this.openedImageHistogramArray[i]) / totalPixelCount; // Pr(pixel color is X) = (number of pixel colored in color X) / 
+                //                                    (total number of pixels)
+            }
+            float sum = colorProbability.Sum(); //total sum of probabilities must converge to 1
+            return colorProbability;
+        }
         public Bitmap CalculateHistogram(Bitmap src)
         {
             //What is pixel?
@@ -165,13 +166,19 @@ namespace Image_procession_and_segmentation
             return bmp;
         }
         public void CalculateCumulativeSumOfHistogramPeaks() // calculates the cumulative pixel count for each color
-        // for example: SumOfHistogramPeaks[i] = Sum(imageHistogram[0] to imageHistogram[i])
+                                                    // for example: SumOfHistogramPeaks[i] = Sum(imageHistogram[0] to imageHistogram[i])
         {
-            this.sumOfHistogramPeaks = new int[256];
-            this.sumOfHistogramPeaks[0] = this.openedImageHistogramArray[0];
+            //this.sumOfHistogramPeaks = new int[256];
+            //this.sumOfHistogramPeaks[0] = this.openedImageHistogramArray[0];
+
+            //for (int i = 1; i < this.openedImageHistogramArray.Length; i++)
+            //    this.sumOfHistogramPeaks[i] = this.sumOfHistogramPeaks[i - 1] + this.openedImageHistogramArray[i];
+
+            this.sumOfHistogramPeaks = new float[256];
+            this.sumOfHistogramPeaks[0] = this.imagePixelColorProbilityArray[0];
 
             for (int i = 1; i < this.openedImageHistogramArray.Length; i++)
-                this.sumOfHistogramPeaks[i] = this.sumOfHistogramPeaks[i - 1] + this.openedImageHistogramArray[i];
+                this.sumOfHistogramPeaks[i] = this.sumOfHistogramPeaks[i - 1] + this.imagePixelColorProbilityArray[i];
         }
 
         public void GetHistogramSamples()

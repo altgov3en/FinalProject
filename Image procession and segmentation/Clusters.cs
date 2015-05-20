@@ -13,10 +13,11 @@ namespace Image_procession_and_segmentation
         private int imageHeight;
         private int imageWidth;
         public int numberOfClusters;
-        public int[] SumOfHistogramPeaks;
 
-        private bool estimatingNumberOfClasters = true; ////////////////////////change
-
+        private bool estimatingNumberOfClasters; // Indicates if the program is in "Estimation of clusters number" phase
+                                                 // which mean that the program is one step before the "Segmentation" phase.
+                                                 // "Estimation of clusters number" will give us the approximate number of clusters (for example X).
+                                                 // Meaning than the original picture can be devided into X separate clusters.
         private Bitmap openedImage;
         public Bitmap imageAfterEM;
         private int[] cl;
@@ -27,7 +28,7 @@ namespace Image_procession_and_segmentation
 
 
 
-        public Clusters(int n, int h, int w, Histogram imageHistogram, Bitmap source) //constructor
+        public Clusters(int n, int h, int w, Histogram imageHistogram, Bitmap source, bool doingEstimatioOrNot) //constructor
         {
             this.numberOfClusters = n;
             this.imageHeight = h;
@@ -36,21 +37,24 @@ namespace Image_procession_and_segmentation
             this.openedImage = source;
             this.cl = new int[this.numberOfClusters];
             this.likelihood = new double[this.numberOfClusters, this.imageHeight, this.imageWidth];
+            this.estimatingNumberOfClasters = doingEstimatioOrNot;
 
             this.GetClusterColor(this.numberOfClusters);
             this.InitiateLikelihood();
 
             this.EMA = new EM_algorithm(this.numberOfClusters, this.openedImage, this.likelihood);
-            //this.imageAfterEM = this.EMA.run(10); //!!!MUST BE FOUND BY BOOK!!!
+            this.imageAfterEM = this.EMA.run(1); //!!!MUST BE FOUND BY BOOK!!!
 
 
         }
         private void GetClusterColor(int numberOfClusters)
         {
-            //if(estimatingNumberOfClasters == true)
-                float[] imageHistogramAVG = CalculateAverageHistogram(this.histogram.histogramSamples);
-            //else
-                //float[] imageHistogramAVG = CalculateAverageHistogram(this.histogram.openedImageHistogramArray);
+            float[] imageHistogramAVG;
+
+            if(this.estimatingNumberOfClasters == true)
+                imageHistogramAVG = CalculateAverageHistogram(this.histogram.histogramSamples);
+            else
+                imageHistogramAVG = CalculateAverageHistogram(this.histogram.openedImageHistogramArray);
 
             this.cl[0] = 0;
             int i = 1;
@@ -89,7 +93,7 @@ namespace Image_procession_and_segmentation
                     {
                         if (Math.Abs(((int)this.openedImage.GetPixel(i, j).R) - cl[c]) < minDist)
                         {
-                            minDist = cl[c];
+                            minDist = this.cl[c];
                             mostFit = c;
                         }
                     }

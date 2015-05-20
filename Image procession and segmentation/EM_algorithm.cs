@@ -9,12 +9,12 @@ namespace Image_procession_and_segmentation
 {
     class EM_algorithm
     {
-        private long pixels;    //Number of pixels in the image
-        private int clusters;   //Number of clusters
-        private Bitmap image;   //Original Image
+        private long pixels;    // Number of pixels in the image
+        private int clusters;   // Number of clusters
+        private Bitmap image;   // Original Image
         private double[, ,] likelihood;   //Likelihood matrix
-        private double[] frac;  //Relative size of clusters
-        private double[] mean;  //Mean values of clusters
+        private double[] standartDeviation;  // How much pixels scatterd from the cluster's mean
+        private double[] mean;  //Mean values of each cluster
         public const double NORM = 0.159154943;  // 1/sqrt(2*PI)^2
 
         public EM_algorithm(int clusters, Bitmap image, double[, ,] likelihoodArr)
@@ -22,7 +22,7 @@ namespace Image_procession_and_segmentation
             this.clusters = clusters;
             this.image = image;
             this.pixels = image.Height * image.Width; //total number of pixels
-            frac = new double[clusters]; //sigma
+            standartDeviation = new double[clusters]; //sigma
             mean = new double[clusters]; //meuw
             likelihood = likelihoodArr; //3 dimentional matrix 
         }
@@ -42,7 +42,7 @@ namespace Image_procession_and_segmentation
                     }
                 }
 
-                frac[c] = sum / (image.Height * image.Width);
+                standartDeviation[c] = sum / (image.Height * image.Width);
 
                 if (meanSum == 0.0 && sum == 0.0)
                     mean[c] = 0.0;
@@ -63,7 +63,7 @@ namespace Image_procession_and_segmentation
                     for (int c = 0; c < clusters; c++)
                     {
                         normdist = NORM * Math.Exp(-((image.GetPixel(i, j).R - mean[c]) * (image.GetPixel(i, j).R - mean[c])) / 2.0);
-                        likelihood[c, i, j] = normdist * frac[c] / totalnormdist(image.GetPixel(i, j).R);
+                        likelihood[c, i, j] = normdist * standartDeviation[c] / totalnormdist(image.GetPixel(i, j).R);
                     }
                 }
             }
@@ -74,7 +74,7 @@ namespace Image_procession_and_segmentation
             double totalnormdist = 0.0;
             for (int c = 0; c < clusters; c++)
             {
-                totalnormdist += frac[c] * NORM * Math.Exp(-((pixel - mean[c]) * (pixel - mean[c])) / 2.0);
+                totalnormdist += standartDeviation[c] * NORM * Math.Exp(-((pixel - mean[c]) * (pixel - mean[c])) / 2.0);
             }
             return totalnormdist;
         }
