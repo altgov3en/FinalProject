@@ -20,7 +20,7 @@ namespace Image_procession_and_segmentation
         private Dilatation dilatationFilter = new Dilatation();
         private Sharpen sharpeningFilter = new Sharpen();
 
-        private Histogram openedImageHistogram; // Histogram for grayscaled image
+        private Histogram openedImageHistogramGrayscaled; // Histogram for grayscaled image
         private Histogram openedImageHistogramEroded;    // Histogran for eroded image
         private Histogram openedImageHistogramSharpened; // Histogram for sharpened image
 
@@ -95,13 +95,13 @@ namespace Image_procession_and_segmentation
             Cursor.Current = Cursors.WaitCursor;
 
             if(this.OpenedImageData.imageWasSharpened)
-                this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogram.DrawHistogram(this.openedImageHistogramSharpened.openedImageHistogramArray);  
+                this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogramSharpened.DrawHistogram(this.openedImageHistogramSharpened.openedImageHistogramArray);  
             else
                 if (this.OpenedImageData.imageWasEroded)
-                    this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogram.CalculateHistogram(this.OpenedImageData.openedImageEroded);
+                    this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogramEroded.DrawHistogram(this.openedImageHistogramEroded.openedImageHistogramArray);
                 else
                     if (this.OpenedImageData.imageWasGrayscaled)
-                        this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogram.DrawHistogram(this.openedImageHistogram.openedImageHistogramArray);
+                        this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogramGrayscaled.DrawHistogram(this.openedImageHistogramGrayscaled.openedImageHistogramArray);
 
 
             this.grayscaleHistogramForm.Show(); // show histogram window
@@ -122,14 +122,14 @@ namespace Image_procession_and_segmentation
 
 
             this.imageClusters = new Clusters(5, OpenedImageData.openedImage.Height, OpenedImageData.openedImage.Width,
-                                              this.openedImageHistogram, this.OpenedImageData.openedImageSharpened, false);
+                                              this.openedImageHistogramGrayscaled, this.OpenedImageData.openedImageSharpened, false);
 
             //////TEST - draw cumulative sum of pixels
-            this.openedImageHistogram.GetHistogramSamples();
+            this.openedImageHistogramGrayscaled.GetHistogramSamples();
             //this.imageHistogram.CalculateCumulativeSumOfHistogramPeaks();
             //this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.imageHistogram.sumOfHistogramPeaks);
 
-            this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogram.DrawHistogram(this.openedImageHistogram.openedImageHistogramArray);
+            this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogramGrayscaled.DrawHistogram(this.openedImageHistogramGrayscaled.openedImageHistogramArray);
             this.grayscaleHistogramForm.pictureBox1.Show();
 
             //this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.imageHistogram.histogramSamples);
@@ -190,7 +190,7 @@ namespace Image_procession_and_segmentation
                 OpenedImageData.imageWasGrayscaled = true;
                 OpenedImageData.openedImageGrayscaled = grayScaleFilter.Apply(imageToConvert);
                 this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageGrayscaled;
-                this.openedImageHistogram = new Histogram(OpenedImageData.openedImageGrayscaled); //create histogram for grayscaled image histogram
+                this.openedImageHistogramGrayscaled = new Histogram(OpenedImageData.openedImageGrayscaled); //create histogram for grayscaled image histogram
 
                 this.applicationForm.showHistogramButton.Visible = true; //"Show Image Histogram" button is anabled                                                        
                 this.applicationForm.showSegImageButton.Visible = true; //"Show Segemented Image" button is anabled
@@ -242,8 +242,8 @@ namespace Image_procession_and_segmentation
                     if (OpenedImageData.imageWasSharpened) //checks if the grayscaled image was already sharpened
                     {
                         OpenedImageData.openedImageSharpened = sharpeningFilter.Apply(OpenedImageData.openedImageSharpened);
-                        this.openedImageHistogram.openedImageGraysledSharpened = this.OpenedImageData.openedImageSharpened; //store the image in histogram object
-                        this.openedImageHistogram = new Histogram(OpenedImageData.openedImageSharpened); //create histogram for grayscaled image histogram
+                        this.openedImageHistogramGrayscaled.openedImageGraysledSharpened = this.OpenedImageData.openedImageSharpened; //store the image in histogram object
+                        this.openedImageHistogramGrayscaled = new Histogram(OpenedImageData.openedImageSharpened); //create histogram for grayscaled image histogram
                         this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageSharpened; //put the picture into picture box
                     }
                     else //first time sharpening, will sharp the grayscaled image
