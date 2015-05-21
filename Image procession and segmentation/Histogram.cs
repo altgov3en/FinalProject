@@ -10,17 +10,34 @@ namespace Image_procession_and_segmentation
 {
     class Histogram
     {
+        private struct pixel
+        {
+            int row; // row index of pixel
+            int column; // column index of pixel
+
+            public pixel(int Width, int Height) //constructor
+            {
+                this.row = Width;
+                this.column = Height;
+            }
+        }
+
         public Bitmap openedImageGrayscaled;
         public Bitmap openedImageGraysledSharpened;
         public Bitmap openedImageHistogram;
+
         public int[] openedImageHistogramArray; //holds the total number of pixel for every color in image (0-255)
-        public float[] imagePixelColorProbilityArray; //hold the probability for every pixel to be in specific color (0-255 colors)
         public int[] histogramSamples; //contain 50 randomized samples of image histogram
+
+        public float[] imagePixelColorProbilityArray; //hold the probability for every pixel to be in specific color (0-255)
         public float[] sumOfHistogramPeaks; //contain the cumulative pixel count for each color
+
+        List<pixel>[] pixelListForEachColor; // holds the cordinates for every pixel that belongs to specific color i (0-255)
 
         public Histogram(Bitmap source)
         {
             this.openedImageGrayscaled = source;
+            this.pixelListForEachColor = new List<pixel>[256];
             this.openedImageHistogramArray = this.CalculateNumberOfPixelForEachColor();
             this.imagePixelColorProbilityArray = this.CalculateColorProbability();
         } // constructor
@@ -39,6 +56,14 @@ namespace Image_procession_and_segmentation
 
                     int pixelColor = (int)((c.R + c.G + c.B) / 3);
                     imageHistogram[pixelColor]++;
+
+                    if (this.pixelListForEachColor[pixelColor] == null)
+                    {
+                        this.pixelListForEachColor[pixelColor] = new List<pixel>(); //initialize list
+                        this.pixelListForEachColor[pixelColor].Add(new pixel(i,j));
+                    }
+                    else
+                        this.pixelListForEachColor[pixelColor].Add(new pixel(i, j));
                 }
             }
             return imageHistogram;
