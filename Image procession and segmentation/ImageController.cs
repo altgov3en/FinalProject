@@ -23,7 +23,7 @@ namespace Image_procession_and_segmentation
         private Histogram openedImageHistogramGrayscaled; // Histogram for grayscaled image
         private Histogram openedImageHistogramEroded;    // Histogran for eroded image
         private Histogram openedImageHistogramSharpened; // Histogram for sharpened image
-
+        
         private Clusters imageClusters;
 
         private MainWindow applicationForm;
@@ -121,24 +121,35 @@ namespace Image_procession_and_segmentation
             }
 
 
-            this.imageClusters = new Clusters(5, OpenedImageData.openedImage.Height, OpenedImageData.openedImage.Width,
-                                              this.openedImageHistogramGrayscaled, this.OpenedImageData.openedImageSharpened, false);
+            //this.imageClusters = new Clusters(6, OpenedImageData.openedImage.Height, OpenedImageData.openedImage.Width,
+            //                                  this.openedImageHistogramSharpened, this.OpenedImageData.openedImageSharpened, false);
+            //this.segmentedImageForm.segmentedImagePBox.Image = this.imageClusters.imageAfterEM;
 
             //////TEST - draw cumulative sum of pixels
-            this.openedImageHistogramGrayscaled.GetHistogramSamples();
             //this.imageHistogram.CalculateCumulativeSumOfHistogramPeaks();
             //this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.imageHistogram.sumOfHistogramPeaks);
 
-            this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogramGrayscaled.DrawHistogram(this.openedImageHistogramGrayscaled.openedImageHistogramArray);
+            this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogramSharpened.DrawHistogram(this.openedImageHistogramSharpened.openedImageHistogramArray);
             this.grayscaleHistogramForm.pictureBox1.Show();
 
             //this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.imageHistogram.histogramSamples);
             //this.grayscaleHistogramForm.Show();
-
             //this.grayscaleHistogramForm.Show();
-            //Clusters cl = new Clusters(5, this.OpenedImageData.openedImage.Height, this.OpenedImageData.openedImage.Width, this.imageHistogram, this.OpenedImageData.openedImageSharpened, true);
-            //this.segmentedImageForm.segmentedImagePBox.Image = cl.imageAfterEM;
-            this.segmentedImageForm.segmentedImagePBox.Image = this.imageClusters.imageAfterEM;
+
+
+
+
+
+            this.openedImageHistogramSharpened.GetHistogramSamples();
+            Clusters cl = new Clusters(6, this.OpenedImageData.openedImage.Height, this.OpenedImageData.openedImage.Width,
+                                       this.openedImageHistogramSharpened, this.OpenedImageData.openedImageSharpened, true);
+
+            this.segmentedImageForm.segmentedImagePBox.Image = cl.imageAfterEM;
+
+
+
+ 
+            this.segmentedImageForm.originalImagePBox.Image = this.OpenedImageData.openedImage;
             this.grayscaleHistogramForm.Show();
             //////END TEST
 
@@ -150,14 +161,23 @@ namespace Image_procession_and_segmentation
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Controller functions
-        public void OpenImage()
+        public void OpenImage() // Only square size images will be accepted
+                                // Because our EM clustering algorithm works only with square size images
         {
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
-                OpenedImageData.openedImage = new Bitmap(openDialog.FileName);
-                OpenedImageData.imageWasOpened = true; //indicates if user opened the image
+                this.OpenedImageData.openedImage = new Bitmap(openDialog.FileName);
+
+                if (this.OpenedImageData.openedImage.Width != this.OpenedImageData.openedImage.Height)
+                {
+                    MessageBox.Show("Error!\nPlease open square size image");
+                    return;
+                }
+               
+
+                this.OpenedImageData.imageWasOpened = true; //indicates if user opened the image
                 this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImage; //Set opened image to main window 
             }
         }

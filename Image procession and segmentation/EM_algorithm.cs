@@ -13,15 +13,17 @@ namespace Image_procession_and_segmentation
         private int clusters;   // Number of clusters
         private Bitmap image;   // Original Image
         private double[, ,] likelihood;   //Likelihood matrix
-        private double[] standartDeviation;  // How much pixels scatterd from the cluster's mean
+        public double[] standartDeviation;  // How much pixels scatterd from the cluster's mean
         private double[] mean;  //Mean values of each cluster
         public const double NORM = 0.159154943;  // 1/sqrt(2*PI)^2
+        private int numberOfEmInterations; // EM is not running until convergence. EM is running specified number of iterations
 
         public EM_algorithm(int clusters, Bitmap image, double[, ,] likelihoodArr)
         {
             this.clusters = clusters;
             this.image = image;
             this.pixels = image.Height * image.Width; //total number of pixels
+            this.numberOfEmInterations = 5;
             standartDeviation = new double[clusters]; //sigma
             mean = new double[clusters]; //meuw
             likelihood = likelihoodArr; //3 dimentional matrix 
@@ -138,7 +140,7 @@ namespace Image_procession_and_segmentation
         //Update the color of each pixel to the average color of the it's cluster
         private Bitmap updatePixels()
         {
-            Color[] colorArr = { Color.Red, Color.Yellow, Color.Blue, Color.Green, Color.Black };
+            Color[] colorArr = { Color.Red, Color.Yellow, Color.Blue, Color.Green, Color.Black, Color.Purple };
 
             Bitmap temp = new Bitmap(image);
             for (int c = 0; c < clusters; c++)
@@ -219,6 +221,12 @@ namespace Image_procession_and_segmentation
             //preventScatter();
             Bitmap result = updatePixels();
             return result;
+        }
+
+        public Tuple<double[],double[]> ReturnMeaAndStDeviation()
+        {
+            this.run(this.numberOfEmInterations);
+            return Tuple.Create(this.mean, this.standartDeviation);
         }
     }
 }

@@ -22,7 +22,9 @@ namespace Image_procession_and_segmentation
         public Bitmap imageAfterEM;
         private int[] cl;
         private Histogram histogram;
+        private EM_algorithm[] emClusterEstimation;
         private EM_algorithm EMA;
+        private int kMax;
 
         public double[, ,] likelihood;   //Likelihood matrix
 
@@ -30,23 +32,48 @@ namespace Image_procession_and_segmentation
 
         public Clusters(int n, int h, int w, Histogram imageHistogram, Bitmap source, bool doingEstimatioOrNot) //constructor
         {
+            this.kMax = 5;
+            this.emClusterEstimation = new EM_algorithm[5];
             this.numberOfClusters = n;
-            this.imageHeight = h;
+            this.imageHeight = h; 
             this.imageWidth = w;
             this.histogram = imageHistogram;
             this.openedImage = source;
             this.cl = new int[this.numberOfClusters];
-            this.likelihood = new double[this.numberOfClusters, this.imageHeight, this.imageWidth];
+
+            //this.likelihood = new double[this.numberOfClusters, this.imageHeight, this.imageWidth];
+            this.likelihood = new double[this.kMax+1, this.imageHeight, this.imageWidth];
+            //////
+
             this.estimatingNumberOfClasters = doingEstimatioOrNot;
 
             this.GetClusterColor(this.numberOfClusters);
             this.InitiateLikelihood();
-
-            this.EMA = new EM_algorithm(this.numberOfClusters, this.openedImage, this.likelihood);
-            this.imageAfterEM = this.EMA.run(1); //!!!MUST BE FOUND BY BOOK!!!
+            /////////////
+            for (int i = 0; i < this.kMax; i++)
+                this.emClusterEstimation[i] = new EM_algorithm(i + 2, this.openedImage, this.likelihood);
+            this.estimateClusterNumber();
+            /////////////////////////
+            //this.EMA = new EM_algorithm(6, this.openedImage, this.likelihood);
+            //this.imageAfterEM = this.EMA.run(5);
 
 
         }
+
+        void estimateClusterNumber()
+        {
+            double[][] sDeviationForKmaxClusters = new double[this.kMax][];
+            double[][] meanResultsForKmaxClusters = new double[this.kMax][];
+            Tuple<double[], double[]> emReturnedValues;
+
+            for (int i = 0; i < this.kMax; i++)
+            {
+                emReturnedValues = this.emClusterEstimation[i].ReturnMeaAndStDeviation();
+                meanResultsForKmaxClusters[i] = emReturnedValues.Item1;
+                sDeviationForKmaxClusters[i] = emReturnedValues.Item2;
+            }
+        }
+
         private void GetClusterColor(int numberOfClusters)
         {
             float[] imageHistogramAVG;
@@ -66,9 +93,19 @@ namespace Image_procession_and_segmentation
                 this.cl[i] = this.RunOtsu(sum, this.cl[i - 1]);
                 numberOfClusters--;
                 sum = 0;
-                for (int k = this.cl[i]; k < this.histogram.openedImageHistogramArray.Length; k++)
-                {
-                    sum = sum + this.histogram.openedImageHistogramArray[k];
+                if (this.estimatingNumberOfClasters == true) 
+                {   // Working with sampled histogram (only 50 colors are randomly presented)
+                    for (int k = this.cl[i]; k < this.histogram.histogramSamples.Length; k++)
+                    {
+                        sum = sum + this.histogram.histogramSamples[k];
+                    }
+                }
+                else
+                {   // Working with regular histogram (all 256 colors are preseted)
+                    for (int k = this.cl[i]; k < this.histogram.openedImageHistogramArray.Length; k++)
+                    {
+                        sum = sum + this.histogram.openedImageHistogramArray[k];
+                    }
                 }
 
                 i++;
@@ -91,7 +128,7 @@ namespace Image_procession_and_segmentation
                     int mostFit = 0;
                     for (int c = 1; c < this.numberOfClusters; c++)
                     {
-                        if (Math.Abs(((int)this.openedImage.GetPixel(i, j).R) - cl[c]) < minDist)
+                        if (Math.Abs(((int)this.openedImage.GetPixel(i, j).R) - this.cl[c]) < minDist)
                         {
                             minDist = this.cl[c];
                             mostFit = c;
