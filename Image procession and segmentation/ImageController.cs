@@ -25,11 +25,16 @@ namespace Image_procession_and_segmentation
         private Histogram openedImageHistogramSharpened; // Histogram for sharpened image
         
         private Clusters imageClusters;
+        private Samples estimatedNumberOfClusters;
+        private int numberOfClusters;
 
         private MainWindow applicationForm;
         private ImageData OpenedImageData;
         private HistogramWindow grayscaleHistogramForm;
         private SegmentedImageWindow segmentedImageForm;
+
+        private int samplingRate = 5; // The program will estimate the number of clusters by sampling
+                              // the histogram (of grayscaled and sharpened image) samplingRate times 
 
         public ImageController(MainWindow applicationForm, HistogramWindow grayscaleHistogramForm,
                                SegmentedImageWindow segmentedImageForm, ImageData OpenedImageData) //Constructor
@@ -137,17 +142,9 @@ namespace Image_procession_and_segmentation
             //this.grayscaleHistogramForm.Show();
 
 
+            this.EstimateTheNumberOfClusters();
 
-
-
-            this.openedImageHistogramSharpened.GetHistogramSamples();
-            Clusters cl = new Clusters(6, this.OpenedImageData.openedImage.Height, this.OpenedImageData.openedImage.Width,
-                                       this.openedImageHistogramSharpened, this.OpenedImageData.openedImageSharpened, true);
-
-            this.segmentedImageForm.segmentedImagePBox.Image = cl.imageAfterEM;
-
-
-
+            //this.segmentedImageForm.segmentedImagePBox.Image = cl.imageAfterEM;
  
             this.segmentedImageForm.originalImagePBox.Image = this.OpenedImageData.openedImage;
             this.grayscaleHistogramForm.Show();
@@ -289,6 +286,14 @@ namespace Image_procession_and_segmentation
         }
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private void EstimateTheNumberOfClusters()
+        {
+            this.estimatedNumberOfClusters = new Samples(this.openedImageHistogramSharpened,
+                                                         this.OpenedImageData.openedImageSharpened,
+                                                         this.samplingRate);
+
+            this.estimatedNumberOfClusters.makeEstimationOfClusterNumber();
+        }
         private void DrawSeparetedClusters() //!!!MOVE TO CLUSTER CLASS!!!
         {
             //this.OpenedImageData.openedImageSegmented = new Bitmap(this.OpenedImageData.openedImage);

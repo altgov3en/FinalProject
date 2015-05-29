@@ -18,62 +18,77 @@ namespace Image_procession_and_segmentation
                                                  // which mean that the program is one step before the "Segmentation" phase.
                                                  // "Estimation of clusters number" will give us the approximate number of clusters (for example X).
                                                  // Meaning than the original picture can be devided into X separate clusters.
-        private Bitmap openedImage;
-        public Bitmap imageAfterEM;
-        private int[] cl;
-        private Histogram histogram;
-        private EM_algorithm[] emClusterEstimation;
+        private Bitmap openedImage; // The image that is processed.
+        public Bitmap imageAfterEM; // Processed image.
+
+        private int[] clusterTresholds; // Containing the treshold for every cluster.
+                    // If the pixel's color is above the treshold it will be belong to the cluster,
+                                                                          // otherwise it will not.
+        private Histogram histogram; // Histogram of the image.
+
+        private EM_algorithm[] emClusterEstimation; // Array of kMax EM algorithms (EMA).
+        // Each instance of EMA will devide the image to specified number of clusters.
+
         private EM_algorithm EMA;
-        private int kMax;
+        private EM_algorithm emForClusterNumEstimation;
 
-        public double[, ,] likelihood;   //Likelihood matrix
+        private int kMax = 5;//Arbitrary number of maximum number of clusters.
+        //Program using kMax to make estimation of cluster number.
+        //Program will divide the image using EM algorithminto 2,3,4,...,kMax clusters 
+        //and save the results to furher analysis.
 
 
+        public double[, ,] likelihood;   // Likelihood matrix[numberOfClusters,imageHeight, imageWidht]
+        // In simple words: likelihood will contain kMax copies of the image.
+        // For each pixel (i,j) likelihood array will indicates to which cluster this pixel is belongs.
+        // For example: likelihood[x,i,j] = 1 or 0 (0-pixel i,j dont belongs to cluster x)
+        //                                         (1-pixel i,j belongs to cluster x).
 
-        public Clusters(int n, int h, int w, Histogram imageHistogram, Bitmap source, bool doingEstimatioOrNot) //constructor
+        public Clusters(int n, int h, int w,
+                        Histogram imageHistogram,
+                        Bitmap source, int iterationNumber,
+                        bool doingEstimatioOrNot) //Constructor1 for cluster number estimation.
+                             //If you are here it means you are doing cluster number estimation.
         {
-            this.kMax = 5;
-            this.emClusterEstimation = new EM_algorithm[5];
+            this.emClusterEstimation = new EM_algorithm[this.kMax];
+            this.numberOfClusters = n; //The image will dived into "numberOfClusters" clusters.
+            this.imageHeight = h;
+            this.imageWidth = w;
+            this.histogram = imageHistogram; //Histogram of the image.
+            this.openedImage = source; //The image that is processed. 
+            this.clusterTresholds = new int[this.numberOfClusters]; // See the explanation at the definition
+
+            this.likelihood = new double[this.kMax + 1, this.imageHeight, this.imageWidth]; //must be n not kMax!?!?!!?
+
+            this.estimatingNumberOfClasters = doingEstimatioOrNot; // Indicates if the program doing cluster number estimations
+
+            this.GetClusterColor(this.numberOfClusters);
+            this.InitiateLikelihood();
+
+            this.emForClusterNumEstimation = new EM_algorithm(iterationNumber+2, this.openedImage, this.likelihood);         
+        }//Constructor1
+
+        public Clusters(int n, int h, int w, Histogram imageHistogram, Bitmap source) //Constructor2 for clustering algorithm.
+                              //If you're here it means you are doing an image clusterization to estimated number of clusters.
+        {
             this.numberOfClusters = n;
             this.imageHeight = h; 
             this.imageWidth = w;
             this.histogram = imageHistogram;
             this.openedImage = source;
-            this.cl = new int[this.numberOfClusters];
-
-            //this.likelihood = new double[this.numberOfClusters, this.imageHeight, this.imageWidth];
+            this.clusterTresholds = new int[this.numberOfClusters];
             this.likelihood = new double[this.kMax+1, this.imageHeight, this.imageWidth];
-            //////
-
-            this.estimatingNumberOfClasters = doingEstimatioOrNot;
-
             this.GetClusterColor(this.numberOfClusters);
             this.InitiateLikelihood();
-            /////////////
-            for (int i = 0; i < this.kMax; i++)
-                this.emClusterEstimation[i] = new EM_algorithm(i + 2, this.openedImage, this.likelihood);
-            this.estimateClusterNumber();
             /////////////////////////
             //this.EMA = new EM_algorithm(6, this.openedImage, this.likelihood);
             //this.imageAfterEM = this.EMA.run(5);
+        }//Constructor2
 
-
-        }
-
-        void estimateClusterNumber()
+        public Tuple<double[], double[]> estimateClusterNumber()
         {
-            double[][] sDeviationForKmaxClusters = new double[this.kMax][];
-            double[][] meanResultsForKmaxClusters = new double[this.kMax][];
-            Tuple<double[], double[]> emReturnedValues;
-
-            for (int i = 0; i < this.kMax; i++)
-            {
-                emReturnedValues = this.emClusterEstimation[i].ReturnMeaAndStDeviation();
-                meanResultsForKmaxClusters[i] = emReturnedValues.Item1;
-                sDeviationForKmaxClusters[i] = emReturnedValues.Item2;
-            }
+            return this.emForClusterNumEstimation.ReturnMeaAndStDeviation();
         }
-
         private void GetClusterColor(int numberOfClusters)
         {
             float[] imageHistogramAVG;
@@ -83,26 +98,26 @@ namespace Image_procession_and_segmentation
             else
                 imageHistogramAVG = CalculateAverageHistogram(this.histogram.openedImageHistogramArray);
 
-            this.cl[0] = 0;
+            this.clusterTresholds[0] = 0;
             int i = 1;
             int treshold = 70;
             int sum = this.imageHeight * this.imageWidth;
 
             while (numberOfClusters != 1)
             {
-                this.cl[i] = this.RunOtsu(sum, this.cl[i - 1]);
+                this.clusterTresholds[i] = this.RunOtsu(sum, this.clusterTresholds[i - 1]);
                 numberOfClusters--;
                 sum = 0;
                 if (this.estimatingNumberOfClasters == true) 
                 {   // Working with sampled histogram (only 50 colors are randomly presented)
-                    for (int k = this.cl[i]; k < this.histogram.histogramSamples.Length; k++)
+                    for (int k = this.clusterTresholds[i]; k < this.histogram.histogramSamples.Length; k++)
                     {
                         sum = sum + this.histogram.histogramSamples[k];
                     }
                 }
                 else
                 {   // Working with regular histogram (all 256 colors are preseted)
-                    for (int k = this.cl[i]; k < this.histogram.openedImageHistogramArray.Length; k++)
+                    for (int k = this.clusterTresholds[i]; k < this.histogram.openedImageHistogramArray.Length; k++)
                     {
                         sum = sum + this.histogram.openedImageHistogramArray[k];
                     }
@@ -128,9 +143,9 @@ namespace Image_procession_and_segmentation
                     int mostFit = 0;
                     for (int c = 1; c < this.numberOfClusters; c++)
                     {
-                        if (Math.Abs(((int)this.openedImage.GetPixel(i, j).R) - this.cl[c]) < minDist)
+                        if (Math.Abs(((int)this.openedImage.GetPixel(i, j).R) - this.clusterTresholds[c]) < minDist)
                         {
-                            minDist = this.cl[c];
+                            minDist = this.clusterTresholds[c];
                             mostFit = c;
                         }
                     }
