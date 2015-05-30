@@ -48,7 +48,8 @@ namespace Image_procession_and_segmentation
                 this.sDeviationForKmaxClusters[i]  = this.emResultMeanAndSdev.Item2;
 
                 // For all color it will define and count to which cluster the color is belong.
-                this.clustersForEstimation[i].AssignColorsToCluster(this.emResultMeanAndSdev.Item1, this.emResultMeanAndSdev.Item2);
+                this.clustersForEstimation[i].AssignColorsToCluster(this.emResultMeanAndSdev.Item1);
+                this.clustersForEstimation[i].CalculateCDF(this.emResultMeanAndSdev.Item1);
      
             }
         }

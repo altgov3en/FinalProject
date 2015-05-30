@@ -26,6 +26,9 @@ namespace Image_procession_and_segmentation
         public Bitmap openedImageGraysledSharpened;
         public Bitmap openedImageHistogram;
 
+        public double[] histogramDifference;
+        public double sumOfHistogramDifference = 0;
+
         public int[] openedImageHistogramArray; //holds the total number of pixel for every color in image (0-255)
         public int[] histogramSamples; //contain 50 randomized samples of image histogram
 

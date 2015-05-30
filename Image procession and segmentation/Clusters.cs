@@ -14,7 +14,8 @@ namespace Image_procession_and_segmentation
         private int imageWidth;
         public int numberOfClusters;
         public int[] numberOfColorsForEachCluster; //contains the number of colors that belong to cluster i
-        public int clusterWeight; // Cluster weight calculation: w = (numberOfColorsForEachCluster[i]/allColors)
+        public double[] clusterWeight; // Cluster weight calculation: w = (numberOfColorsForEachCluster[i]/allColors)
+        public double[] cdf; // Comulative Density Function.
 
         private bool estimatingNumberOfClasters; // Indicates if the program is in "Estimation of clusters number" phase
                                                  // which mean that the program is one step before the "Segmentation" phase.
@@ -88,23 +89,50 @@ namespace Image_procession_and_segmentation
             //this.imageAfterEM = this.EMA.run(5);
         }//Constructor2
 
-        public void AssignColorsToCluster(double[] mean, double[] sDeviation) // For all color it will define and count
+        public void AssignColorsToCluster(double[] mean) // For all color it will define and count
                                                                               // to which cluster the color is belong.
         {
             const double NORM = 0.159154943;  // 1/sqrt(2*PI)^2
+            this.clusterWeight = new double[mean.Length];
             double[] colorCountForCluster = new double[mean.Length];
             double[] normdist = new double[mean.Length];
+
             for (int i = 0; i < this.histogram.openedImageHistogramArray.Length; i++)
             {
                 for (int j = 0; j < normdist.Length; j++)
                 {
-                    double temp = Math.Exp(-((this.histogram.openedImageHistogramArray[i] - mean[j]) * (this.histogram.openedImageHistogramArray[i] - mean[j])) / 2.0);
+                    double temp = Math.Exp(-((this.histogram.openedImageHistogramArray[i] - mean[j]) *
+                                             (this.histogram.openedImageHistogramArray[i] - mean[j])) / 2.0);
                     normdist[j] = NORM * temp;
                 }
                 double maxValue = normdist.Max();
                 int maxIndex = normdist.ToList().IndexOf(maxValue);
                 colorCountForCluster[maxIndex]++;
             }
+
+            for (int i = 0; i < normdist.Length; i++)
+                this.clusterWeight[i] = colorCountForCluster[i] / this.histogram.openedImageHistogramArray.Length;
+        }
+        public void CalculateCDF(double[] mean)
+        {
+            const double NORM = 0.159154943;  // 1/sqrt(2*PI)^2
+            double sumDist = 0;
+            this.histogram.histogramDifference = new double[this.histogram.openedImageHistogramArray.Length];
+            this.cdf = new double[mean.Length];
+
+            for (int i = 0; i < this.histogram.openedImageHistogramArray.Length; i++)
+            {
+                for (int j = 0; j < mean.Length; j++)
+                {
+                    sumDist =+ NORM * Math.Exp(-((i - mean[j]) * 
+                                                 (i - mean[j])) / 2.0) *
+                                                  this.clusterWeight[j];  
+                }
+                this.histogram.histogramDifference[i] = Math.Abs(this.histogram.imagePixelColorProbilityArray[i] - sumDist);
+                sumDist = 0;
+            }
+            this.histogram.sumOfHistogramDifference = this.histogram.histogramDifference.Sum();
+
         }
         public Tuple<double[], double[]> estimateClusterNumber()
         {
