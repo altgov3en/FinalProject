@@ -13,6 +13,8 @@ namespace Image_procession_and_segmentation
         private int imageHeight;
         private int imageWidth;
         public int numberOfClusters;
+        public int[] numberOfColorsForEachCluster; //contains the number of colors that belong to cluster i
+        public int clusterWeight; // Cluster weight calculation: w = (numberOfColorsForEachCluster[i]/allColors)
 
         private bool estimatingNumberOfClasters; // Indicates if the program is in "Estimation of clusters number" phase
                                                  // which mean that the program is one step before the "Segmentation" phase.
@@ -50,6 +52,7 @@ namespace Image_procession_and_segmentation
                         bool doingEstimatioOrNot) //Constructor1 for cluster number estimation.
                              //If you are here it means you are doing cluster number estimation.
         {
+            this.numberOfColorsForEachCluster = new int[n + 2]; //
             this.emClusterEstimation = new EM_algorithm[this.kMax];
             this.numberOfClusters = n; //The image will dived into "numberOfClusters" clusters.
             this.imageHeight = h;
@@ -85,6 +88,24 @@ namespace Image_procession_and_segmentation
             //this.imageAfterEM = this.EMA.run(5);
         }//Constructor2
 
+        public void AssignColorsToCluster(double[] mean, double[] sDeviation) // For all color it will define and count
+                                                                              // to which cluster the color is belong.
+        {
+            const double NORM = 0.159154943;  // 1/sqrt(2*PI)^2
+            double[] colorCountForCluster = new double[mean.Length];
+            double[] normdist = new double[mean.Length];
+            for (int i = 0; i < this.histogram.openedImageHistogramArray.Length; i++)
+            {
+                for (int j = 0; j < normdist.Length; j++)
+                {
+                    double temp = Math.Exp(-((this.histogram.openedImageHistogramArray[i] - mean[j]) * (this.histogram.openedImageHistogramArray[i] - mean[j])) / 2.0);
+                    normdist[j] = NORM * temp;
+                }
+                double maxValue = normdist.Max();
+                int maxIndex = normdist.ToList().IndexOf(maxValue);
+                colorCountForCluster[maxIndex]++;
+            }
+        }
         public Tuple<double[], double[]> estimateClusterNumber()
         {
             return this.emForClusterNumEstimation.ReturnMeaAndStDeviation();

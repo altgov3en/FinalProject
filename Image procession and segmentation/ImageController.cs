@@ -34,7 +34,7 @@ namespace Image_procession_and_segmentation
         private SegmentedImageWindow segmentedImageForm;
 
         private int samplingRate = 5; // The program will estimate the number of clusters by sampling
-                              // the histogram (of grayscaled and sharpened image) samplingRate times 
+                              // the histogram (of grayscale-eroded-sharpened image) "samplingRate" times 
 
         public ImageController(MainWindow applicationForm, HistogramWindow grayscaleHistogramForm,
                                SegmentedImageWindow segmentedImageForm, ImageData OpenedImageData) //Constructor

@@ -16,14 +16,13 @@ namespace Image_procession_and_segmentation
         public double[] standartDeviation;  // How much pixels scatterd from the cluster's mean
         private double[] mean;  //Mean values of each cluster
         public const double NORM = 0.159154943;  // 1/sqrt(2*PI)^2
-        private int numberOfEmInterations; // EM is not running until convergence. EM is running specified number of iterations
+        private int numberOfEmInterations = 5; // EM is not running until convergence. EM is running specified number of iterations
 
         public EM_algorithm(int clusters, Bitmap image, double[, ,] likelihoodArr)
         {
             this.clusters = clusters;
             this.image = image;
             this.pixels = image.Height * image.Width; //total number of pixels
-            this.numberOfEmInterations = 5;
             standartDeviation = new double[clusters]; //sigma
             mean = new double[clusters]; //meuw
             likelihood = likelihoodArr; //3 dimentional matrix 

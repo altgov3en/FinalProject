@@ -202,7 +202,7 @@ namespace Image_procession_and_segmentation
             this.sumOfHistogramPeaks = new float[256];
             this.sumOfHistogramPeaks[0] = this.imagePixelColorProbilityArray[0];
 
-            for (int i = 1; i < this.openedImageHistogramArray.Length; i++)
+            for (int i = 1; i < this.imagePixelColorProbilityArray.Length; i++)
                 this.sumOfHistogramPeaks[i] = this.sumOfHistogramPeaks[i - 1] + this.imagePixelColorProbilityArray[i];
         }
 
