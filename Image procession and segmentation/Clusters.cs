@@ -116,7 +116,7 @@ namespace Image_procession_and_segmentation
         public void CalculateCDF(double[] mean)
         {
             const double NORM = 0.159154943;  // 1/sqrt(2*PI)^2
-            double sumDist = 0;
+            double[] sumDist = new double[mean.Length];
             this.histogram.histogramDifference = new double[this.histogram.openedImageHistogramArray.Length];
             this.cdf = new double[mean.Length];
 
@@ -124,12 +124,9 @@ namespace Image_procession_and_segmentation
             {
                 for (int j = 0; j < mean.Length; j++)
                 {
-                    sumDist =+ NORM * Math.Exp(-((i - mean[j]) * 
-                                                 (i - mean[j])) / 2.0) *
-                                                  this.clusterWeight[j];  
+                    sumDist[j] =  NORM * Math.Exp(-((i - mean[j]) * (i - mean[j])) / 2.0) * this.clusterWeight[j];  
                 }
-                this.histogram.histogramDifference[i] = Math.Abs(this.histogram.imagePixelColorProbilityArray[i] - sumDist);
-                sumDist = 0;
+                this.histogram.histogramDifference[i] = Math.Abs(this.histogram.imagePixelColorProbilityArray[i] - sumDist.Sum());
             }
             this.histogram.sumOfHistogramDifference = this.histogram.histogramDifference.Sum();
 
