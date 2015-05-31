@@ -33,7 +33,7 @@ namespace Image_procession_and_segmentation
         private HistogramWindow grayscaleHistogramForm;
         private SegmentedImageWindow segmentedImageForm;
 
-        private int samplingRate = 8; // The program will estimate the number of clusters by sampling
+        private int samplingRate = 5; // The program will estimate the number of clusters by sampling
                               // the histogram (of grayscale-eroded-sharpened image) "samplingRate" times 
 
         public ImageController(MainWindow applicationForm, HistogramWindow grayscaleHistogramForm,
@@ -143,6 +143,11 @@ namespace Image_procession_and_segmentation
 
 
             this.EstimateTheNumberOfClusters();
+            this.imageClusters = new Clusters(this.numberOfClusters, this.OpenedImageData.openedImage.Height, 
+                                              this.OpenedImageData.openedImage.Width, this.openedImageHistogramSharpened, 
+                                              this.OpenedImageData.openedImageSharpened, false);
+
+            this.segmentedImageForm.segmentedImagePBox.Image = this.imageClusters.imageAfterEM;
 
             //this.segmentedImageForm.segmentedImagePBox.Image = cl.imageAfterEM;
  
@@ -292,7 +297,7 @@ namespace Image_procession_and_segmentation
                                                          this.OpenedImageData.openedImageSharpened,
                                                          this.samplingRate);
 
-            this.estimatedNumberOfClusters.makeEstimationOfClusterNumber();
+            this.numberOfClusters = this.estimatedNumberOfClusters.makeEstimationOfClusterNumber();
         }
         private void DrawSeparetedClusters() //!!!MOVE TO CLUSTER CLASS!!!
         {

@@ -35,7 +35,7 @@ namespace Image_procession_and_segmentation
         private EM_algorithm EMA;
         private EM_algorithm emForClusterNumEstimation;
 
-        private int kMax = 9;//Arbitrary number of maximum number of clusters.
+        private int kMax = 5;//Arbitrary number of maximum number of clusters.
         //Program using kMax to make estimation of cluster number.
         //Program will divide the image using EM algorithminto 2,3,4,...,kMax clusters 
         //and save the results to furher analysis.
@@ -72,7 +72,7 @@ namespace Image_procession_and_segmentation
             this.emForClusterNumEstimation = new EM_algorithm(iterationNumber+2, this.openedImage, this.likelihood);         
         }//Constructor1
 
-        public Clusters(int n, int h, int w, Histogram imageHistogram, Bitmap source) //Constructor2 for clustering algorithm.
+        public Clusters(int n, int h, int w, Histogram imageHistogram, Bitmap source, bool doingEstimatioOrNot) //Constructor2 for clustering algorithm.
                               //If you're here it means you are doing an image clusterization to estimated number of clusters.
         {
             this.numberOfClusters = n;
@@ -85,8 +85,8 @@ namespace Image_procession_and_segmentation
             this.GetClusterColor(this.numberOfClusters);
             this.InitiateLikelihood();
             /////////////////////////
-            //this.EMA = new EM_algorithm(6, this.openedImage, this.likelihood);
-            //this.imageAfterEM = this.EMA.run(5);
+            this.EMA = new EM_algorithm(this.numberOfClusters, this.openedImage, this.likelihood);
+            this.imageAfterEM = this.EMA.run(5);
         }//Constructor2
 
         public void AssignColorsToCluster(double[] mean) // For all color it will define and count

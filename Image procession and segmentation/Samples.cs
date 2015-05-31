@@ -36,7 +36,7 @@ namespace Image_procession_and_segmentation
             this.imageHistogram.CalculateCumulativeSumOfHistogramPeaks();           
         }
 
-        public void makeEstimationOfClusterNumber()
+        public int makeEstimationOfClusterNumber()
         {
             
 
@@ -62,6 +62,9 @@ namespace Image_procession_and_segmentation
                 this.samplesDifferences[i] = this.clustersForEstimation[i].histogram.sumOfHistogramDifference;
      
             }
+                double minValue = this.samplesDifferences.Min();
+                return (this.samplesDifferences.ToList().IndexOf(minValue) + 2);
+            
         }
 
     }
