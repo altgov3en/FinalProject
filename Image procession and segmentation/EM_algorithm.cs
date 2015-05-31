@@ -139,7 +139,7 @@ namespace Image_procession_and_segmentation
         //Update the color of each pixel to the average color of the it's cluster
         private Bitmap updatePixels()
         {
-            Color[] colorArr = { Color.Red, Color.Yellow, Color.Blue, Color.Green, Color.Black, Color.Purple };
+            Color[] colorArr = { Color.Red, Color.Yellow, Color.Blue, Color.Green, Color.Black, Color.Purple , Color.Coral, Color.DarkOrange, Color.AliceBlue};
 
             Bitmap temp = new Bitmap(image);
             for (int c = 0; c < clusters; c++)

@@ -13,6 +13,7 @@ namespace Image_procession_and_segmentation
         private Bitmap image;
         Clusters[] clustersForEstimation;
         Histogram[] histograms;
+        double[] samplesDifferences;
 
 
         private int samplingRate; //how many histogram samples will be made
@@ -29,6 +30,7 @@ namespace Image_procession_and_segmentation
             this.samplingRate = k;
             this.clustersForEstimation = new Clusters[this.samplingRate];
             this.histograms = new Histogram[this.samplingRate];
+            this.samplesDifferences = new double[this.samplingRate];
             this.sDeviationForKmaxClusters = new double[this.samplingRate][];
             this.meanResultsForKmaxClusters = new double[this.samplingRate][];
             this.imageHistogram.CalculateCumulativeSumOfHistogramPeaks();           
@@ -57,6 +59,7 @@ namespace Image_procession_and_segmentation
                 // For all color it will define and count to which cluster the color is belong.
                 this.clustersForEstimation[i].AssignColorsToCluster(this.emResultMeanAndSdev.Item1);
                 this.clustersForEstimation[i].CalculateCDF(this.emResultMeanAndSdev.Item1);
+                this.samplesDifferences[i] = this.clustersForEstimation[i].histogram.sumOfHistogramDifference;
      
             }
         }

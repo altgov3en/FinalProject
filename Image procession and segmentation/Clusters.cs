@@ -27,7 +27,7 @@ namespace Image_procession_and_segmentation
         private int[] clusterTresholds; // Containing the treshold for every cluster.
                     // If the pixel's color is above the treshold it will be belong to the cluster,
                                                                           // otherwise it will not.
-        private Histogram histogram; // Histogram of the image.
+        public Histogram histogram; // Histogram of the image.
 
         private EM_algorithm[] emClusterEstimation; // Array of kMax EM algorithms (EMA).
         // Each instance of EMA will devide the image to specified number of clusters.
@@ -35,7 +35,7 @@ namespace Image_procession_and_segmentation
         private EM_algorithm EMA;
         private EM_algorithm emForClusterNumEstimation;
 
-        private int kMax = 5;//Arbitrary number of maximum number of clusters.
+        private int kMax = 9;//Arbitrary number of maximum number of clusters.
         //Program using kMax to make estimation of cluster number.
         //Program will divide the image using EM algorithminto 2,3,4,...,kMax clusters 
         //and save the results to furher analysis.
