@@ -38,6 +38,10 @@ namespace Image_procession_and_segmentation
             this.convertToGrayscaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.erodeTheImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sharpenTheImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.estimateNumberOfClustersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.divideImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.intoEstimatedNumberOfClustersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.intoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runOverallDiagnosisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.showHistogramButton = new System.Windows.Forms.Button();
@@ -85,6 +89,8 @@ namespace Image_procession_and_segmentation
             this.convertToGrayscaleToolStripMenuItem,
             this.erodeTheImageToolStripMenuItem,
             this.sharpenTheImageToolStripMenuItem,
+            this.estimateNumberOfClustersToolStripMenuItem,
+            this.divideImageToolStripMenuItem,
             this.runOverallDiagnosisToolStripMenuItem});
             this.imageAnalysisToolsToolStripMenuItem.Enabled = false;
             this.imageAnalysisToolsToolStripMenuItem.Name = "imageAnalysisToolsToolStripMenuItem";
@@ -94,28 +100,57 @@ namespace Image_procession_and_segmentation
             // convertToGrayscaleToolStripMenuItem
             // 
             this.convertToGrayscaleToolStripMenuItem.Name = "convertToGrayscaleToolStripMenuItem";
-            this.convertToGrayscaleToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.convertToGrayscaleToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.convertToGrayscaleToolStripMenuItem.Text = "Convert To Grayscale";
             // 
             // erodeTheImageToolStripMenuItem
             // 
             this.erodeTheImageToolStripMenuItem.Enabled = false;
             this.erodeTheImageToolStripMenuItem.Name = "erodeTheImageToolStripMenuItem";
-            this.erodeTheImageToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.erodeTheImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.erodeTheImageToolStripMenuItem.Text = "Erode the Image";
             // 
             // sharpenTheImageToolStripMenuItem
             // 
             this.sharpenTheImageToolStripMenuItem.Enabled = false;
             this.sharpenTheImageToolStripMenuItem.Name = "sharpenTheImageToolStripMenuItem";
-            this.sharpenTheImageToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.sharpenTheImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.sharpenTheImageToolStripMenuItem.Text = "Sharpen the Image";
+            // 
+            // estimateNumberOfClustersToolStripMenuItem
+            // 
+            this.estimateNumberOfClustersToolStripMenuItem.Enabled = false;
+            this.estimateNumberOfClustersToolStripMenuItem.Name = "estimateNumberOfClustersToolStripMenuItem";
+            this.estimateNumberOfClustersToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.estimateNumberOfClustersToolStripMenuItem.Text = "Estimate Number Of Clusters";
+            // 
+            // divideImageToolStripMenuItem
+            // 
+            this.divideImageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.intoEstimatedNumberOfClustersToolStripMenuItem,
+            this.intoToolStripMenuItem});
+            this.divideImageToolStripMenuItem.Enabled = false;
+            this.divideImageToolStripMenuItem.Name = "divideImageToolStripMenuItem";
+            this.divideImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.divideImageToolStripMenuItem.Text = "Divide Image Into...";
+            // 
+            // intoEstimatedNumberOfClustersToolStripMenuItem
+            // 
+            this.intoEstimatedNumberOfClustersToolStripMenuItem.Name = "intoEstimatedNumberOfClustersToolStripMenuItem";
+            this.intoEstimatedNumberOfClustersToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.intoEstimatedNumberOfClustersToolStripMenuItem.Text = "Estimated Number Of Clusters";
+            // 
+            // intoToolStripMenuItem
+            // 
+            this.intoToolStripMenuItem.Name = "intoToolStripMenuItem";
+            this.intoToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.intoToolStripMenuItem.Text = "Custom Number Of Clusers";
             // 
             // runOverallDiagnosisToolStripMenuItem
             // 
             this.runOverallDiagnosisToolStripMenuItem.Enabled = false;
             this.runOverallDiagnosisToolStripMenuItem.Name = "runOverallDiagnosisToolStripMenuItem";
-            this.runOverallDiagnosisToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.runOverallDiagnosisToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.runOverallDiagnosisToolStripMenuItem.Text = "Run Overall Diagnosis";
             // 
             // pictureBox1
@@ -187,6 +222,10 @@ namespace Image_procession_and_segmentation
         internal System.Windows.Forms.Button showHistogramButton;
         internal System.Windows.Forms.Button showSegImageButton;
         internal System.Windows.Forms.ToolStripMenuItem runOverallDiagnosisToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem estimateNumberOfClustersToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem divideImageToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem intoEstimatedNumberOfClustersToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem intoToolStripMenuItem;
     }
 
 }

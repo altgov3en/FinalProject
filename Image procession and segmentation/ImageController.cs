@@ -54,8 +54,10 @@ namespace Image_procession_and_segmentation
             this.applicationForm.showHistogramButton.Click += new System.EventHandler(this.ShowHistogramButton_Click);
             this.applicationForm.showSegImageButton.Click += new System.EventHandler(this.ShowSegImageButton_Click);
             this.applicationForm.runOverallDiagnosisToolStripMenuItem.Click += new System.EventHandler(this.runOverallDiagnosisToolStripMenuItem_Click);
+            this.applicationForm.estimateNumberOfClustersToolStripMenuItem.Click += new System.EventHandler(this.estimateNumberOfClustersToolStripMenuItem_Click);
+            this.applicationForm.intoEstimatedNumberOfClustersToolStripMenuItem.Click += new System.EventHandler(this.intoEstimatedNumberOfClustersToolStripMenuItem_Click);
+            this.applicationForm.intoToolStripMenuItem.Click += new System.EventHandler(this.intoToolStripMenuItem_Click);
         }
-
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region "UI Click" handlers
@@ -164,9 +166,24 @@ namespace Image_procession_and_segmentation
 
         private void runOverallDiagnosisToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Overall process was enabled");
+            MessageBox.Show("runOverallDiagnosisToolStripMenuItem_Click");
         }
 
+
+        private void intoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("intoToolStripMenuItem_Click");
+        }
+
+        private void intoEstimatedNumberOfClustersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("intoEstimatedNumberOfClustersToolStripMenuItem_Click");
+        }
+
+        private void estimateNumberOfClustersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("estimateNumberOfClustersToolStripMenuItem_Click");
+        }
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Controller functions
@@ -232,10 +249,13 @@ namespace Image_procession_and_segmentation
 
                 this.applicationForm.convertToGrayscaleToolStripMenuItem.Text = "Image Already Grayscaled";
                 this.applicationForm.convertToGrayscaleToolStripMenuItem.Enabled = false;
-                this.applicationForm.runOverallDiagnosisToolStripMenuItem.Enabled = true;
 
                 this.applicationForm.openImageToolStripMenuItem.Enabled = false;
                 this.applicationForm.openImageToolStripMenuItem.Text = "Open Image (Opened Image Already In Process)";
+
+                this.applicationForm.runOverallDiagnosisToolStripMenuItem.Enabled = true;
+                this.applicationForm.estimateNumberOfClustersToolStripMenuItem.Enabled = true;
+                this.applicationForm.divideImageToolStripMenuItem.Enabled = true;
 
 
             }
