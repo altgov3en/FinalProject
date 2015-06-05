@@ -42,10 +42,10 @@ namespace Image_procession_and_segmentation
             this.divideImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.intoEstimatedNumberOfClustersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.intoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.runOverallDiagnosisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.showHistogramButton = new System.Windows.Forms.Button();
-            this.showSegImageButton = new System.Windows.Forms.Button();
             this.openedImageLable = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -92,6 +92,7 @@ namespace Image_procession_and_segmentation
             this.sharpenTheImageToolStripMenuItem,
             this.estimateNumberOfClustersToolStripMenuItem,
             this.divideImageToolStripMenuItem,
+            this.toolStripMenuItem2,
             this.runOverallDiagnosisToolStripMenuItem});
             this.imageAnalysisToolsToolStripMenuItem.Enabled = false;
             this.imageAnalysisToolsToolStripMenuItem.Name = "imageAnalysisToolsToolStripMenuItem";
@@ -101,28 +102,28 @@ namespace Image_procession_and_segmentation
             // convertToGrayscaleToolStripMenuItem
             // 
             this.convertToGrayscaleToolStripMenuItem.Name = "convertToGrayscaleToolStripMenuItem";
-            this.convertToGrayscaleToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.convertToGrayscaleToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.convertToGrayscaleToolStripMenuItem.Text = "Convert To Grayscale";
             // 
             // erodeTheImageToolStripMenuItem
             // 
             this.erodeTheImageToolStripMenuItem.Enabled = false;
             this.erodeTheImageToolStripMenuItem.Name = "erodeTheImageToolStripMenuItem";
-            this.erodeTheImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.erodeTheImageToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.erodeTheImageToolStripMenuItem.Text = "Erode the Image";
             // 
             // sharpenTheImageToolStripMenuItem
             // 
             this.sharpenTheImageToolStripMenuItem.Enabled = false;
             this.sharpenTheImageToolStripMenuItem.Name = "sharpenTheImageToolStripMenuItem";
-            this.sharpenTheImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.sharpenTheImageToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.sharpenTheImageToolStripMenuItem.Text = "Sharpen the Image";
             // 
             // estimateNumberOfClustersToolStripMenuItem
             // 
             this.estimateNumberOfClustersToolStripMenuItem.Enabled = false;
             this.estimateNumberOfClustersToolStripMenuItem.Name = "estimateNumberOfClustersToolStripMenuItem";
-            this.estimateNumberOfClustersToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.estimateNumberOfClustersToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.estimateNumberOfClustersToolStripMenuItem.Text = "Estimate Number Of Clusters";
             // 
             // divideImageToolStripMenuItem
@@ -132,14 +133,15 @@ namespace Image_procession_and_segmentation
             this.intoToolStripMenuItem});
             this.divideImageToolStripMenuItem.Enabled = false;
             this.divideImageToolStripMenuItem.Name = "divideImageToolStripMenuItem";
-            this.divideImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.divideImageToolStripMenuItem.Text = "Divide Image Into...";
+            this.divideImageToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.divideImageToolStripMenuItem.Text = "Divide Image To...";
             // 
             // intoEstimatedNumberOfClustersToolStripMenuItem
             // 
+            this.intoEstimatedNumberOfClustersToolStripMenuItem.Enabled = false;
             this.intoEstimatedNumberOfClustersToolStripMenuItem.Name = "intoEstimatedNumberOfClustersToolStripMenuItem";
-            this.intoEstimatedNumberOfClustersToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.intoEstimatedNumberOfClustersToolStripMenuItem.Text = "Estimated Number Of Clusters";
+            this.intoEstimatedNumberOfClustersToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
+            this.intoEstimatedNumberOfClustersToolStripMenuItem.Text = "Estimated Number Of Clusters\n(Never Estimated)";
             // 
             // intoToolStripMenuItem
             // 
@@ -147,11 +149,18 @@ namespace Image_procession_and_segmentation
             this.intoToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.intoToolStripMenuItem.Text = "Custom Number Of Clusers";
             // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Enabled = false;
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(229, 22);
+            this.toolStripMenuItem2.Text = "*******************************";
+            // 
             // runOverallDiagnosisToolStripMenuItem
             // 
             this.runOverallDiagnosisToolStripMenuItem.Enabled = false;
             this.runOverallDiagnosisToolStripMenuItem.Name = "runOverallDiagnosisToolStripMenuItem";
-            this.runOverallDiagnosisToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.runOverallDiagnosisToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.runOverallDiagnosisToolStripMenuItem.Text = "Run Overall Diagnosis";
             // 
             // pictureBox1
@@ -169,6 +178,7 @@ namespace Image_procession_and_segmentation
             // 
             this.showHistogramButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.showHistogramButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.showHistogramButton.Enabled = false;
             this.showHistogramButton.Location = new System.Drawing.Point(244, 383);
             this.showHistogramButton.Name = "showHistogramButton";
             this.showHistogramButton.Size = new System.Drawing.Size(183, 23);
@@ -176,18 +186,6 @@ namespace Image_procession_and_segmentation
             this.showHistogramButton.Text = "Show Image Histogram";
             this.showHistogramButton.UseVisualStyleBackColor = true;
             this.showHistogramButton.Visible = false;
-            // 
-            // showSegImageButton
-            // 
-            this.showSegImageButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.showSegImageButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.showSegImageButton.Location = new System.Drawing.Point(244, 354);
-            this.showSegImageButton.Name = "showSegImageButton";
-            this.showSegImageButton.Size = new System.Drawing.Size(183, 23);
-            this.showSegImageButton.TabIndex = 3;
-            this.showSegImageButton.Text = "Show Segmented Image";
-            this.showSegImageButton.UseVisualStyleBackColor = true;
-            this.showSegImageButton.Visible = false;
             // 
             // openedImageLable
             // 
@@ -209,7 +207,6 @@ namespace Image_procession_and_segmentation
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(670, 418);
             this.Controls.Add(this.openedImageLable);
-            this.Controls.Add(this.showSegImageButton);
             this.Controls.Add(this.showHistogramButton);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
@@ -236,13 +233,13 @@ namespace Image_procession_and_segmentation
         internal System.Windows.Forms.ToolStripMenuItem erodeTheImageToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem sharpenTheImageToolStripMenuItem;
         internal System.Windows.Forms.Button showHistogramButton;
-        internal System.Windows.Forms.Button showSegImageButton;
         internal System.Windows.Forms.ToolStripMenuItem runOverallDiagnosisToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem estimateNumberOfClustersToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem divideImageToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem intoEstimatedNumberOfClustersToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem intoToolStripMenuItem;
         internal System.Windows.Forms.Label openedImageLable;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 
 }
