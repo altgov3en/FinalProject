@@ -38,6 +38,7 @@ namespace Image_procession_and_segmentation
             this.convertToGrayscaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.erodeTheImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sharpenTheImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runOverallDiagnosisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.showHistogramButton = new System.Windows.Forms.Button();
             this.showSegImageButton = new System.Windows.Forms.Button();
@@ -73,6 +74,7 @@ namespace Image_procession_and_segmentation
             // 
             // saveImageToolStripMenuItem
             // 
+            this.saveImageToolStripMenuItem.Enabled = false;
             this.saveImageToolStripMenuItem.Name = "saveImageToolStripMenuItem";
             this.saveImageToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.saveImageToolStripMenuItem.Text = "Save Image";
@@ -82,7 +84,9 @@ namespace Image_procession_and_segmentation
             this.imageAnalysisToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.convertToGrayscaleToolStripMenuItem,
             this.erodeTheImageToolStripMenuItem,
-            this.sharpenTheImageToolStripMenuItem});
+            this.sharpenTheImageToolStripMenuItem,
+            this.runOverallDiagnosisToolStripMenuItem});
+            this.imageAnalysisToolsToolStripMenuItem.Enabled = false;
             this.imageAnalysisToolsToolStripMenuItem.Name = "imageAnalysisToolsToolStripMenuItem";
             this.imageAnalysisToolsToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
             this.imageAnalysisToolsToolStripMenuItem.Text = "Image Analysis Tools";
@@ -90,20 +94,29 @@ namespace Image_procession_and_segmentation
             // convertToGrayscaleToolStripMenuItem
             // 
             this.convertToGrayscaleToolStripMenuItem.Name = "convertToGrayscaleToolStripMenuItem";
-            this.convertToGrayscaleToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.convertToGrayscaleToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.convertToGrayscaleToolStripMenuItem.Text = "Convert To Grayscale";
             // 
             // erodeTheImageToolStripMenuItem
             // 
+            this.erodeTheImageToolStripMenuItem.Enabled = false;
             this.erodeTheImageToolStripMenuItem.Name = "erodeTheImageToolStripMenuItem";
-            this.erodeTheImageToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.erodeTheImageToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.erodeTheImageToolStripMenuItem.Text = "Erode the Image";
             // 
             // sharpenTheImageToolStripMenuItem
             // 
+            this.sharpenTheImageToolStripMenuItem.Enabled = false;
             this.sharpenTheImageToolStripMenuItem.Name = "sharpenTheImageToolStripMenuItem";
-            this.sharpenTheImageToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.sharpenTheImageToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.sharpenTheImageToolStripMenuItem.Text = "Sharpen the Image";
+            // 
+            // runOverallDiagnosisToolStripMenuItem
+            // 
+            this.runOverallDiagnosisToolStripMenuItem.Enabled = false;
+            this.runOverallDiagnosisToolStripMenuItem.Name = "runOverallDiagnosisToolStripMenuItem";
+            this.runOverallDiagnosisToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.runOverallDiagnosisToolStripMenuItem.Text = "Run Overall Diagnosis";
             // 
             // pictureBox1
             // 
@@ -162,7 +175,7 @@ namespace Image_procession_and_segmentation
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        public System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem openImageToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem saveImageToolStripMenuItem;
@@ -173,6 +186,8 @@ namespace Image_procession_and_segmentation
         internal System.Windows.Forms.ToolStripMenuItem sharpenTheImageToolStripMenuItem;
         internal System.Windows.Forms.Button showHistogramButton;
         internal System.Windows.Forms.Button showSegImageButton;
+        internal System.Windows.Forms.ToolStripMenuItem runOverallDiagnosisToolStripMenuItem;
     }
+
 }
 

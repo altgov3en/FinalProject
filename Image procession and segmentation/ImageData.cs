@@ -28,5 +28,8 @@ namespace Image_procession_and_segmentation
         public Boolean imageWasDilatated = false;   //indicates if the image was dilatated
         public Boolean imageWasSharpened = false;    //indicates if the image was sharpened
 
+        public int timesEroded = 0;
+        public int timesSharpened = 0;
+
     }
 }

@@ -53,7 +53,9 @@ namespace Image_procession_and_segmentation
             this.applicationForm.sharpenTheImageToolStripMenuItem.Click += new System.EventHandler(this.SharpenTheImageToolStripMenuItem_Click);
             this.applicationForm.showHistogramButton.Click += new System.EventHandler(this.ShowHistogramButton_Click);
             this.applicationForm.showSegImageButton.Click += new System.EventHandler(this.ShowSegImageButton_Click);
+            this.applicationForm.runOverallDiagnosisToolStripMenuItem.Click += new System.EventHandler(this.runOverallDiagnosisToolStripMenuItem_Click);
         }
+
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region "UI Click" handlers
@@ -160,6 +162,11 @@ namespace Image_procession_and_segmentation
             Cursor.Current = Cursors.Arrow;
         }
 
+        private void runOverallDiagnosisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Overall process was enabled");
+        }
+
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Controller functions
@@ -181,6 +188,8 @@ namespace Image_procession_and_segmentation
 
                 this.OpenedImageData.imageWasOpened = true; //indicates if user opened the image
                 this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImage; //Set opened image to main window 
+                this.applicationForm.saveImageToolStripMenuItem.Enabled = true;
+                this.applicationForm.imageAnalysisToolsToolStripMenuItem.Enabled = true;
             }
         }
         public void SaveImage(ImageData ImageView)
@@ -216,9 +225,23 @@ namespace Image_procession_and_segmentation
 
                 this.applicationForm.showHistogramButton.Visible = true; //"Show Image Histogram" button is anabled                                                        
                 this.applicationForm.showSegImageButton.Visible = true; //"Show Segemented Image" button is anabled
+
+                this.applicationForm.erodeTheImageToolStripMenuItem.Enabled = true;
+                this.applicationForm.sharpenTheImageToolStripMenuItem.Enabled = true;
+
+
+                this.applicationForm.convertToGrayscaleToolStripMenuItem.Text = "Image Already Grayscaled";
+                this.applicationForm.convertToGrayscaleToolStripMenuItem.Enabled = false;
+                this.applicationForm.runOverallDiagnosisToolStripMenuItem.Enabled = true;
+
+                this.applicationForm.openImageToolStripMenuItem.Enabled = false;
+                this.applicationForm.openImageToolStripMenuItem.Text = "Open Image (Opened Image Already In Process)";
+
+
             }
             else
                 MessageBox.Show("There is no image to Grayscale.");
+
             Cursor.Current = Cursors.Arrow;
         }
         public void ErodeGrayscaledImage()
@@ -232,7 +255,9 @@ namespace Image_procession_and_segmentation
                     //not first time erosion, will erode the already eroded image
                     {
                         this.OpenedImageData.openedImageEroded = this.dilatationFilter.Apply(this.OpenedImageData.openedImageEroded);
-                        this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageEroded;                       
+                        this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageEroded;
+                        this.OpenedImageData.timesEroded++;
+                        this.applicationForm.erodeTheImageToolStripMenuItem.Text = "Erode Image (Was Erroded X" + this.OpenedImageData.timesEroded + " Times)";
                     }
                     else
                     {
@@ -241,6 +266,9 @@ namespace Image_procession_and_segmentation
                         this.OpenedImageData.openedImageEroded = this.dilatationFilter.Apply(this.OpenedImageData.openedImageGrayscaled);
                         this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageEroded; ;
                         this.openedImageHistogramEroded = new Histogram(this.OpenedImageData.openedImageEroded);
+
+                        this.OpenedImageData.timesEroded++;
+                        this.applicationForm.erodeTheImageToolStripMenuItem.Text = "Erode Image (Was Erroded X" + this.OpenedImageData.timesEroded + " Times)";
                     }
                 }
                 else
@@ -267,6 +295,9 @@ namespace Image_procession_and_segmentation
                         this.openedImageHistogramGrayscaled.openedImageGraysledSharpened = this.OpenedImageData.openedImageSharpened; //store the image in histogram object
                         this.openedImageHistogramGrayscaled = new Histogram(OpenedImageData.openedImageSharpened); //create histogram for grayscaled image histogram
                         this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageSharpened; //put the picture into picture box
+
+                        this.OpenedImageData.timesSharpened++;
+                        this.applicationForm.sharpenTheImageToolStripMenuItem.Text = "Sharpen Image (Was Erroded X" + this.OpenedImageData.timesSharpened + " Times)";
                     }
                     else //first time sharpening, will sharp the grayscaled image
                     {
@@ -277,6 +308,9 @@ namespace Image_procession_and_segmentation
                         OpenedImageData.imageWasSharpened = true;
                         this.openedImageHistogramSharpened = new Histogram(this.OpenedImageData.openedImageSharpened); //create histogram for sharpened image
                         this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageSharpened;
+
+                        this.OpenedImageData.timesSharpened++;
+                        this.applicationForm.sharpenTheImageToolStripMenuItem.Text = "Sharpen Image (Was Erroded X" + this.OpenedImageData.timesSharpened + " Times)";
                     }
                 }
                 else

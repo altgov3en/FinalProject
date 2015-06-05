@@ -16,5 +16,10 @@ namespace Image_procession_and_segmentation
         {
             InitializeComponent();
         }
+
+        private void runOverallDiagnosisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
