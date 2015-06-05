@@ -46,6 +46,7 @@ namespace Image_procession_and_segmentation
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.showHistogramButton = new System.Windows.Forms.Button();
             this.showSegImageButton = new System.Windows.Forms.Button();
+            this.openedImageLable = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -188,11 +189,26 @@ namespace Image_procession_and_segmentation
             this.showSegImageButton.UseVisualStyleBackColor = true;
             this.showSegImageButton.Visible = false;
             // 
+            // openedImageLable
+            // 
+            this.openedImageLable.AutoSize = true;
+            this.openedImageLable.BackColor = System.Drawing.SystemColors.Control;
+            this.openedImageLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.openedImageLable.ForeColor = System.Drawing.Color.Black;
+            this.openedImageLable.Location = new System.Drawing.Point(0, 106);
+            this.openedImageLable.Name = "openedImageLable";
+            this.openedImageLable.Size = new System.Drawing.Size(88, 15);
+            this.openedImageLable.TabIndex = 4;
+            this.openedImageLable.Text = "Original Image";
+            this.openedImageLable.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.openedImageLable.Visible = false;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(670, 418);
+            this.Controls.Add(this.openedImageLable);
             this.Controls.Add(this.showSegImageButton);
             this.Controls.Add(this.showHistogramButton);
             this.Controls.Add(this.pictureBox1);
@@ -226,6 +242,7 @@ namespace Image_procession_and_segmentation
         internal System.Windows.Forms.ToolStripMenuItem divideImageToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem intoEstimatedNumberOfClustersToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem intoToolStripMenuItem;
+        internal System.Windows.Forms.Label openedImageLable;
     }
 
 }

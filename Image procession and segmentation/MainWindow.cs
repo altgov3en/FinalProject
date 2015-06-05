@@ -17,15 +17,5 @@ namespace Image_procession_and_segmentation
             InitializeComponent();
         }
 
-        private void intoEstimatedNumberOfClustersToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void intoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

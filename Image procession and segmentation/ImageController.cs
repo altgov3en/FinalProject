@@ -121,52 +121,54 @@ namespace Image_procession_and_segmentation
         //Click->"Show Segmented Image"
         private void ShowSegImageButton_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
 
-            if(this.OpenedImageData.imageWasSharpened == false)
-            {
-                MessageBox.Show("Cannot display Segmented image.\n-The image must be Sharpened.\n");
-                return;
-            }
-
-
-            //this.imageClusters = new Clusters(6, OpenedImageData.openedImage.Height, OpenedImageData.openedImage.Width,
-            //                                  this.openedImageHistogramSharpened, this.OpenedImageData.openedImageSharpened, false);
-            //this.segmentedImageForm.segmentedImagePBox.Image = this.imageClusters.imageAfterEM;
-
-            //////TEST - draw cumulative sum of pixels
-            //this.imageHistogram.CalculateCumulativeSumOfHistogramPeaks();
-            //this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.imageHistogram.sumOfHistogramPeaks);
-
-            this.grayscaleHistogramForm.pictureBox1.Image = this.openedImageHistogramSharpened.DrawHistogram(this.openedImageHistogramSharpened.openedImageHistogramArray);
-            this.grayscaleHistogramForm.pictureBox1.Show();
-
-            //this.grayscaleHistogramForm.pictureBox1.Image = this.imageHistogram.DrawHistogram(this.imageHistogram.histogramSamples);
-            //this.grayscaleHistogramForm.Show();
-            //this.grayscaleHistogramForm.Show();
-
-
-            this.EstimateTheNumberOfClusters();
-            this.imageClusters = new Clusters(this.numberOfClusters, this.OpenedImageData.openedImage.Height, 
-                                              this.OpenedImageData.openedImage.Width, this.openedImageHistogramSharpened, 
-                                              this.OpenedImageData.openedImageSharpened, false);
-
-            this.segmentedImageForm.segmentedImagePBox.Image = this.imageClusters.imageAfterEM;
-
-            //this.segmentedImageForm.segmentedImagePBox.Image = cl.imageAfterEM;
- 
-            this.segmentedImageForm.originalImagePBox.Image = this.OpenedImageData.openedImage;
-            this.grayscaleHistogramForm.Show();
-            //////END TEST
-
-            this.DrawSeparetedClusters();
-            this.segmentedImageForm.Show();
-            Cursor.Current = Cursors.Arrow;
         }
 
         private void runOverallDiagnosisToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("runOverallDiagnosisToolStripMenuItem_Click");
+            Cursor.Current = Cursors.WaitCursor;
+
+
+            if (this.OpenedImageData.imageWasSharpened)
+            {
+                this.segmentedImageForm.imageHistogrm.Image = this.openedImageHistogramSharpened.DrawHistogram(this.openedImageHistogramSharpened.openedImageHistogramArray);
+                this.segmentedImageForm.imageHistogrm.Show();
+                this.EstimateTheNumberOfClusters();
+                this.segmentedImageForm.segmentedImageLable.Text = "Image Segmented Into " + this.numberOfClusters + " Clusters";
+                this.imageClusters = new Clusters(this.numberOfClusters, this.OpenedImageData.openedImage.Height,
+                                                  this.OpenedImageData.openedImage.Width, this.openedImageHistogramSharpened,
+                                                  this.OpenedImageData.openedImageSharpened, false); 
+            }
+            else
+                if (this.OpenedImageData.imageWasEroded)
+                {
+                    this.segmentedImageForm.imageHistogrm.Image = this.openedImageHistogramEroded.DrawHistogram(this.openedImageHistogramEroded.openedImageHistogramArray);
+                    this.segmentedImageForm.imageHistogrm.Show();
+                    this.EstimateTheNumberOfClusters();
+                    this.segmentedImageForm.segmentedImageLable.Text = "Image Segmented Into " + this.numberOfClusters + " Clusters";
+                    this.imageClusters = new Clusters(this.numberOfClusters, this.OpenedImageData.openedImage.Height,
+                                                      this.OpenedImageData.openedImage.Width, this.openedImageHistogramEroded,
+                                                      this.OpenedImageData.openedImageEroded, false);   
+
+                }
+                else
+                    if (this.OpenedImageData.imageWasGrayscaled)
+                    {
+                        this.segmentedImageForm.imageHistogrm.Image = this.openedImageHistogramGrayscaled.DrawHistogram(this.openedImageHistogramGrayscaled.openedImageHistogramArray);
+                        this.segmentedImageForm.imageHistogrm.Show();
+                        this.EstimateTheNumberOfClusters();
+                        this.segmentedImageForm.segmentedImageLable.Text = "Image Segmented Into " + this.numberOfClusters + " Clusters";
+                        this.imageClusters = new Clusters(this.numberOfClusters, this.OpenedImageData.openedImage.Height,
+                                                          this.OpenedImageData.openedImage.Width, this.openedImageHistogramGrayscaled,
+                                                          this.OpenedImageData.openedImageGrayscaled, false);                        
+                    }
+
+            this.segmentedImageForm.segmentedImagePBox.Image = this.imageClusters.imageAfterEM;
+            this.segmentedImageForm.originalImagePBox.Image = this.OpenedImageData.openedImage;
+
+            this.segmentedImageForm.Show();
+
+            Cursor.Current = Cursors.Arrow;
         }
 
 
@@ -207,6 +209,9 @@ namespace Image_procession_and_segmentation
                 this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImage; //Set opened image to main window 
                 this.applicationForm.saveImageToolStripMenuItem.Enabled = true;
                 this.applicationForm.imageAnalysisToolsToolStripMenuItem.Enabled = true;
+
+                this.applicationForm.openedImageLable.Visible = true;
+                this.applicationForm.openedImageLable.Text = "Original Image:";
             }
         }
         public void SaveImage(ImageData ImageView)
@@ -257,6 +262,8 @@ namespace Image_procession_and_segmentation
                 this.applicationForm.estimateNumberOfClustersToolStripMenuItem.Enabled = true;
                 this.applicationForm.divideImageToolStripMenuItem.Enabled = true;
 
+                this.applicationForm.openedImageLable.Text = "Original Image:\nGrayscaled";
+
 
             }
             else
@@ -277,7 +284,11 @@ namespace Image_procession_and_segmentation
                         this.OpenedImageData.openedImageEroded = this.dilatationFilter.Apply(this.OpenedImageData.openedImageEroded);
                         this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageEroded;
                         this.OpenedImageData.timesEroded++;
-                        this.applicationForm.erodeTheImageToolStripMenuItem.Text = "Erode Image (Was Erroded X" + this.OpenedImageData.timesEroded + " Times)";
+
+                        if (this.OpenedImageData.imageWasSharpened)
+                            this.applicationForm.openedImageLable.Text = "Original Image:\nGrayscaled\nEroded X" + this.OpenedImageData.timesEroded + " Times\nSharpened X" + this.OpenedImageData.timesSharpened + " Times";
+                        else
+                            this.applicationForm.openedImageLable.Text = "Original Image:\nGrayscaled\nEroded X" + this.OpenedImageData.timesEroded + " Times";
                     }
                     else
                     {
@@ -288,7 +299,11 @@ namespace Image_procession_and_segmentation
                         this.openedImageHistogramEroded = new Histogram(this.OpenedImageData.openedImageEroded);
 
                         this.OpenedImageData.timesEroded++;
-                        this.applicationForm.erodeTheImageToolStripMenuItem.Text = "Erode Image (Was Erroded X" + this.OpenedImageData.timesEroded + " Times)";
+
+                        if (this.OpenedImageData.imageWasSharpened)
+                            this.applicationForm.openedImageLable.Text = "Original Image:\nGrayscaled\nEroded X" + this.OpenedImageData.timesEroded + " Times\nSharpened X" + this.OpenedImageData.timesSharpened + " Times";
+                        else
+                            this.applicationForm.openedImageLable.Text = "Original Image:\nGrayscaled\nEroded X" + this.OpenedImageData.timesEroded + " Times";
                     }
                 }
                 else
@@ -315,9 +330,12 @@ namespace Image_procession_and_segmentation
                         this.openedImageHistogramGrayscaled.openedImageGraysledSharpened = this.OpenedImageData.openedImageSharpened; //store the image in histogram object
                         this.openedImageHistogramGrayscaled = new Histogram(OpenedImageData.openedImageSharpened); //create histogram for grayscaled image histogram
                         this.applicationForm.pictureBox1.Image = this.OpenedImageData.openedImageSharpened; //put the picture into picture box
-
                         this.OpenedImageData.timesSharpened++;
-                        this.applicationForm.sharpenTheImageToolStripMenuItem.Text = "Sharpen Image (Was Erroded X" + this.OpenedImageData.timesSharpened + " Times)";
+
+                        if(this.OpenedImageData.imageWasEroded)
+                            this.applicationForm.openedImageLable.Text = "Original Image:\nGrayscaled\nEroded " + this.OpenedImageData.timesEroded + " Times\nSharpened X" + this.OpenedImageData.timesSharpened + " Times";
+                        else
+                            this.applicationForm.openedImageLable.Text = "Original Image:\nGrayscaled\nSharpened X" + this.OpenedImageData.timesSharpened + " Times";
                     }
                     else //first time sharpening, will sharp the grayscaled image
                     {
@@ -330,7 +348,11 @@ namespace Image_procession_and_segmentation
                         this.applicationForm.pictureBox1.Image = OpenedImageData.openedImageSharpened;
 
                         this.OpenedImageData.timesSharpened++;
-                        this.applicationForm.sharpenTheImageToolStripMenuItem.Text = "Sharpen Image (Was Erroded X" + this.OpenedImageData.timesSharpened + " Times)";
+
+                        if (this.OpenedImageData.imageWasEroded)
+                            this.applicationForm.openedImageLable.Text = "Original Image:\nGrayscaled\nEroded " + this.OpenedImageData.timesEroded + " Times\nSharpened X" + this.OpenedImageData.timesSharpened + " Times";
+                        else
+                            this.applicationForm.openedImageLable.Text = "Original Image:\nGrayscaled\nSharpened X" + this.OpenedImageData.timesSharpened + " Times";
                     }
                 }
                 else
@@ -347,10 +369,22 @@ namespace Image_procession_and_segmentation
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void EstimateTheNumberOfClusters()
         {
-            this.estimatedNumberOfClusters = new Samples(this.openedImageHistogramSharpened,
-                                                         this.OpenedImageData.openedImageSharpened,
-                                                         this.samplingRate);
-
+            if (this.OpenedImageData.imageWasSharpened)           
+                this.estimatedNumberOfClusters = new Samples(this.openedImageHistogramSharpened,
+                                                             this.OpenedImageData.openedImageSharpened,
+                                                             this.samplingRate);            
+            else
+            {
+                if (this.OpenedImageData.imageWasEroded)
+                    this.estimatedNumberOfClusters = new Samples(this.openedImageHistogramEroded,
+                                                                 this.OpenedImageData.openedImageEroded,
+                                                                 this.samplingRate);
+                else
+                    if (this.OpenedImageData.imageWasGrayscaled)
+                        this.estimatedNumberOfClusters = new Samples(this.openedImageHistogramGrayscaled,
+                                                                     this.OpenedImageData.openedImageGrayscaled,
+                                                                     this.samplingRate);
+            }
             this.numberOfClusters = this.estimatedNumberOfClusters.makeEstimationOfClusterNumber();
         }
         private void DrawSeparetedClusters() //!!!MOVE TO CLUSTER CLASS!!!
