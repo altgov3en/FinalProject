@@ -18,11 +18,11 @@ namespace Image_procession_and_segmentation
             Application.SetCompatibleTextRenderingDefault(false);
 
             MainWindow applicationForm = new MainWindow();
-            HistogramWindow grayscaleHistogramForm = new HistogramWindow();
+            HistogramWindow histogramForm = new HistogramWindow();
             SegmentedImageWindow segmentedImageForm = new SegmentedImageWindow();
             
             ImageData openedImageData = new ImageData();
-            ImageController OpenedImageController = new ImageController(applicationForm, grayscaleHistogramForm, segmentedImageForm, openedImageData);
+            ImageController OpenedImageController = new ImageController(applicationForm, histogramForm, segmentedImageForm, openedImageData);
            
 
             Application.Run(applicationForm); //run the application UI form

@@ -36,12 +36,12 @@ namespace Image_procession_and_segmentation
         private int samplingRate = 5; // The program will estimate the number of clusters by sampling
                               // the histogram (of grayscale-eroded-sharpened image) "samplingRate" times 
 
-        public ImageController(MainWindow applicationForm, HistogramWindow HistogramForm,
+        public ImageController(MainWindow applicationForm, HistogramWindow histogramForm,
                                SegmentedImageWindow segmentedImageForm, ImageData OpenedImageData) //Constructor
         {
             // TODO: Complete member initialization
             this.applicationForm = applicationForm;
-            this.histogramForm = HistogramForm;
+            this.histogramForm = histogramForm;
             this.segmentedImageForm = segmentedImageForm;
             this.openedImageData = OpenedImageData;
             this.applicationForm.Load += new System.EventHandler(this.Form1_Load);
@@ -149,7 +149,8 @@ namespace Image_procession_and_segmentation
             this.applicationForm.erodeTheImageToolStripMenuItem.Enabled = false;
             this.applicationForm.sharpenTheImageToolStripMenuItem.Enabled = false;
 
-            this.histogramForm.
+
+
             if (this.openedImageData.imageWasSharpened)
                 this.histogramForm.histogramPicture.Image = this.openedImageHistogramSharpened.DrawHistogram(this.openedImageHistogramSharpened.openedImageHistogramArray);
             else

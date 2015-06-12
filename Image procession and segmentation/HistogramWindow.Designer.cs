@@ -91,8 +91,8 @@
         #endregion
 
         internal System.Windows.Forms.PictureBox histogramPicture;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button okButton;
+        internal System.Windows.Forms.TextBox textBox1;
+        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.Button okButton;
     }
 }
