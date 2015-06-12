@@ -16,6 +16,5 @@ namespace Image_procession_and_segmentation
         {
             InitializeComponent();
         }
-
     }
 }

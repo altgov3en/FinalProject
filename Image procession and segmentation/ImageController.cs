@@ -55,7 +55,6 @@ namespace Image_procession_and_segmentation
             this.applicationForm.estimateNumberOfClustersToolStripMenuItem.Click += new System.EventHandler(this.estimateNumberOfClustersToolStripMenuItem_Click);
             this.applicationForm.intoEstimatedNumberOfClustersToolStripMenuItem.Click += new System.EventHandler(this.intoEstimatedNumberOfClustersToolStripMenuItem_Click);
             this.applicationForm.intoToolStripMenuItem.Click += new System.EventHandler(this.intoToolStripMenuItem_Click);
-
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,6 +146,10 @@ namespace Image_procession_and_segmentation
 
         private void intoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this.applicationForm.erodeTheImageToolStripMenuItem.Enabled = false;
+            this.applicationForm.sharpenTheImageToolStripMenuItem.Enabled = false;
+
+            this.histogramForm.
             if (this.openedImageData.imageWasSharpened)
                 this.histogramForm.histogramPicture.Image = this.openedImageHistogramSharpened.DrawHistogram(this.openedImageHistogramSharpened.openedImageHistogramArray);
             else
@@ -162,14 +165,61 @@ namespace Image_procession_and_segmentation
 
         private void intoEstimatedNumberOfClustersToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+
+            if (this.openedImageData.imageWasSharpened)
+            {
+                this.segmentedImageForm.imageHistogrm.Image = this.openedImageHistogramSharpened.DrawHistogram(this.openedImageHistogramSharpened.openedImageHistogramArray);
+                this.segmentedImageForm.imageHistogrm.Show();
+                this.segmentedImageForm.segmentedImageLable.Text = "Image Segmented Into " + this.numberOfClusters + " Clusters";
+                this.imageClusters = new Clusters(this.numberOfClusters, this.openedImageData.openedImage.Height,
+                                                  this.openedImageData.openedImage.Width, this.openedImageHistogramSharpened,
+                                                  this.openedImageData.openedImageSharpened, false);
+            }
+            else
+                if (this.openedImageData.imageWasEroded)
+                {
+                    this.segmentedImageForm.imageHistogrm.Image = this.openedImageHistogramEroded.DrawHistogram(this.openedImageHistogramEroded.openedImageHistogramArray);
+                    this.segmentedImageForm.imageHistogrm.Show();
+                    this.segmentedImageForm.segmentedImageLable.Text = "Image Segmented Into " + this.numberOfClusters + " Clusters";
+                    this.imageClusters = new Clusters(this.numberOfClusters, this.openedImageData.openedImage.Height,
+                                                      this.openedImageData.openedImage.Width, this.openedImageHistogramEroded,
+                                                      this.openedImageData.openedImageEroded, false);
+
+                }
+                else
+                    if (this.openedImageData.imageWasGrayscaled)
+                    {
+                        this.segmentedImageForm.imageHistogrm.Image = this.openedImageHistogramGrayscaled.DrawHistogram(this.openedImageHistogramGrayscaled.openedImageHistogramArray);
+                        this.segmentedImageForm.imageHistogrm.Show();
+                        this.segmentedImageForm.segmentedImageLable.Text = "Image Segmented Into " + this.numberOfClusters + " Clusters";
+                        this.imageClusters = new Clusters(this.numberOfClusters, this.openedImageData.openedImage.Height,
+                                                          this.openedImageData.openedImage.Width, this.openedImageHistogramGrayscaled,
+                                                          this.openedImageData.openedImageGrayscaled, false);
+                    }
+
+            this.segmentedImageForm.segmentedImagePBox.Image = this.imageClusters.imageAfterEM;
+            this.segmentedImageForm.originalImagePBox.Image = this.openedImageData.openedImage;
+
+            this.segmentedImageForm.Show();
+
+            Cursor.Current = Cursors.Arrow;
 
         }
 
         private void estimateNumberOfClustersToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            this.applicationForm.erodeTheImageToolStripMenuItem.Enabled = false;
+            this.applicationForm.sharpenTheImageToolStripMenuItem.Enabled = false;
+
             this.EstimateTheNumberOfClusters();
             this.applicationForm.intoEstimatedNumberOfClustersToolStripMenuItem.Text = "Estimated Number Of Clusters\n(Estimated Number Of Clusters: " + this.numberOfClusters + ")";
             this.applicationForm.intoEstimatedNumberOfClustersToolStripMenuItem.Enabled = true;
+            this.applicationForm.estimateNumberOfClustersToolStripMenuItem.Enabled = false;
+            this.applicationForm.estimateNumberOfClustersToolStripMenuItem.Text = "Estimate Number Of Clusters (Already Estimated)";
+            Cursor.Current = Cursors.Arrow;
+
         }
         #endregion
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -369,30 +419,5 @@ namespace Image_procession_and_segmentation
             }
             this.numberOfClusters = this.estimatedNumberOfClusters.makeEstimationOfClusterNumber();
          }
-        private void DrawSeparetedClusters() //!!!MOVE TO CLUSTER CLASS!!!
-        {
-            //this.OpenedImageData.openedImageSegmented = new Bitmap(this.OpenedImageData.openedImage);
-
-            //Color[] colorArr = { Color.Red, Color.Yellow, Color.Blue, Color.Green, Color.Black };
-
-            //for (int i = 0; i < this.OpenedImageData.openedImageSegmented.Height; i++)
-            //{
-            //    for (int j = 0; j < this.OpenedImageData.openedImageSegmented.Width; j++)
-            //    {
-            //        for (int c = 1; c < this.imageClusters.numberOfClusters; c++)
-            //        {
-            //            if (this.imageClusters.likelihood[c, i, j] == 1)
-            //            {
-
-            //                this.OpenedImageData.openedImageSegmented.SetPixel(i, j, colorArr[c]);
-            //            }
-            //        }
-            //    }
-            //}
-            //this.segmentedImageForm.segmentedImagePBox.Image = this.OpenedImageData.openedImageSegmented;
-            //this.segmentedImageForm.segmentedImagePBox.Image = this.imageClusters.imageAfterEM;
-            //this.segmentedImageForm.originalImagePBox.Image = this.OpenedImageData.openedImage;
-
-        }
     }
 }

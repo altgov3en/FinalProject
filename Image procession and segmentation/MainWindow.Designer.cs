@@ -140,13 +140,13 @@ namespace Image_procession_and_segmentation
             // 
             this.intoEstimatedNumberOfClustersToolStripMenuItem.Enabled = false;
             this.intoEstimatedNumberOfClustersToolStripMenuItem.Name = "intoEstimatedNumberOfClustersToolStripMenuItem";
-            this.intoEstimatedNumberOfClustersToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
+            this.intoEstimatedNumberOfClustersToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
             this.intoEstimatedNumberOfClustersToolStripMenuItem.Text = "Estimated Number Of Clusters\n(Never Estimated)";
             // 
             // intoToolStripMenuItem
             // 
             this.intoToolStripMenuItem.Name = "intoToolStripMenuItem";
-            this.intoToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.intoToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
             this.intoToolStripMenuItem.Text = "Custom Number Of Clusers";
             // 
             // toolStripMenuItem2
