@@ -25,7 +25,7 @@
         private void InitializeComponent()
         {
             this.histogramPicture = new System.Windows.Forms.PictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.numberOfClustersTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.histogramPicture)).BeginInit();
@@ -42,13 +42,13 @@
             this.histogramPicture.TabIndex = 0;
             this.histogramPicture.TabStop = false;
             // 
-            // textBox1
+            // numberOfClustersTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(294, 465);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(58, 20);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            this.numberOfClustersTextBox.Location = new System.Drawing.Point(294, 465);
+            this.numberOfClustersTextBox.Name = "numberOfClustersTextBox";
+            this.numberOfClustersTextBox.Size = new System.Drawing.Size(58, 20);
+            this.numberOfClustersTextBox.TabIndex = 1;
+            this.numberOfClustersTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // label1
             // 
@@ -56,9 +56,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label1.Location = new System.Drawing.Point(5, 465);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(285, 17);
+            this.label1.Size = new System.Drawing.Size(273, 17);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Enter Number Of Clusters (2, 3, 4, 5, 6 or 7)";
+            this.label1.Text = "Enter Number Of Clusters (2, 3, 4, 5 or  6)";
             // 
             // okButton
             // 
@@ -77,7 +77,7 @@
             this.ClientSize = new System.Drawing.Size(511, 493);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.numberOfClustersTextBox);
             this.Controls.Add(this.histogramPicture);
             this.Name = "HistogramWindow";
             this.Text = "Choose Number Of Clusters";
@@ -91,7 +91,7 @@
         #endregion
 
         internal System.Windows.Forms.PictureBox histogramPicture;
-        internal System.Windows.Forms.TextBox textBox1;
+        internal System.Windows.Forms.TextBox numberOfClustersTextBox;
         internal System.Windows.Forms.Label label1;
         internal System.Windows.Forms.Button okButton;
     }

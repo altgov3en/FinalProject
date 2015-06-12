@@ -25,7 +25,7 @@ namespace Image_procession_and_segmentation
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            this.textBox1.Clear();
+            this.numberOfClustersTextBox.Clear();
             if (e.KeyChar != '2' && e.KeyChar != '3' && e.KeyChar != '4' && e.KeyChar != '5' && e.KeyChar != '6' && e.KeyChar != '7')
            {
 
@@ -36,9 +36,7 @@ namespace Image_procession_and_segmentation
             {
                 this.okButton.Enabled = true;
                 this.okButton.Text = "Divide to " + e.KeyChar + " Segments";
-            }
-
-                
+            }                
         }
     }
 }
