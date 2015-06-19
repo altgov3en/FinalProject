@@ -5,7 +5,6 @@
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -35,7 +34,7 @@
             // 
             this.histogramPicture.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.histogramPicture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.histogramPicture.Location = new System.Drawing.Point(0, 1);
+            this.histogramPicture.Location = new System.Drawing.Point(0, 3);
             this.histogramPicture.Name = "histogramPicture";
             this.histogramPicture.Size = new System.Drawing.Size(511, 457);
             this.histogramPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -74,7 +73,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(511, 493);
+            this.ClientSize = new System.Drawing.Size(511, 496);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numberOfClustersTextBox);

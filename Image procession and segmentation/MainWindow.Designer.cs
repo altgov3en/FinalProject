@@ -41,7 +41,7 @@ namespace Image_procession_and_segmentation
             this.estimateNumberOfClustersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.divideImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.intoEstimatedNumberOfClustersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.intoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.intoUserSpecifiesNumberOfClustersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.runOverallDiagnosisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -130,7 +130,7 @@ namespace Image_procession_and_segmentation
             // 
             this.divideImageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.intoEstimatedNumberOfClustersToolStripMenuItem,
-            this.intoToolStripMenuItem});
+            this.intoUserSpecifiesNumberOfClustersToolStripMenuItem});
             this.divideImageToolStripMenuItem.Enabled = false;
             this.divideImageToolStripMenuItem.Name = "divideImageToolStripMenuItem";
             this.divideImageToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
@@ -143,11 +143,11 @@ namespace Image_procession_and_segmentation
             this.intoEstimatedNumberOfClustersToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
             this.intoEstimatedNumberOfClustersToolStripMenuItem.Text = "Estimated Number Of Clusters\n(Never Estimated)";
             // 
-            // intoToolStripMenuItem
+            // intoUserSpecifiesNumberOfClustersToolStripMenuItem
             // 
-            this.intoToolStripMenuItem.Name = "intoToolStripMenuItem";
-            this.intoToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
-            this.intoToolStripMenuItem.Text = "Custom Number Of Clusers";
+            this.intoUserSpecifiesNumberOfClustersToolStripMenuItem.Name = "intoUserSpecifiesNumberOfClustersToolStripMenuItem";
+            this.intoUserSpecifiesNumberOfClustersToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
+            this.intoUserSpecifiesNumberOfClustersToolStripMenuItem.Text = "Custom Number Of Clusers";
             // 
             // toolStripMenuItem2
             // 
@@ -237,7 +237,7 @@ namespace Image_procession_and_segmentation
         internal System.Windows.Forms.ToolStripMenuItem estimateNumberOfClustersToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem divideImageToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem intoEstimatedNumberOfClustersToolStripMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem intoToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem intoUserSpecifiesNumberOfClustersToolStripMenuItem;
         internal System.Windows.Forms.Label openedImageLable;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }

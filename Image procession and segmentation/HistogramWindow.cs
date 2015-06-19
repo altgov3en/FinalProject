@@ -16,7 +16,6 @@ namespace Image_procession_and_segmentation
         {
             InitializeComponent();
         }
-        int i;
 
         private void HistogramWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -38,5 +37,6 @@ namespace Image_procession_and_segmentation
                 this.okButton.Text = "Divide to " + e.KeyChar + " Segments";
             }                
         }
+
     }
 }
